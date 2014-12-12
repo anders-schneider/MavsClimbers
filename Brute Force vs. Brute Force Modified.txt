@@ -1,0 +1,96 @@
+BRUTE FORCE
+0.033 seconds for 2000 trials with 2 teachers and 4 students
+
+BRUTE FORCE MODIFIED
+0.01 seconds for 2000 trials with 2 teachers and 4 students
+
+
+BRUTE FORCE
+0.033 seconds for 2000 trials with 3 teachers and 6 students
+
+BRUTE FORCE MODIFIED
+0.015 seconds for 2000 trials with 3 teachers and 6 students
+
+
+BRUTE FORCE
+0.075 seconds for 2000 trials with 4 teachers and 8 students
+
+BRUTE FORCE MODIFIED
+0.053 seconds for 2000 trials with 4 teachers and 8 students
+
+
+BRUTE FORCE
+0.129 seconds for 2000 trials with 5 teachers and 10 students
+
+BRUTE FORCE MODIFIED
+0.056 seconds for 2000 trials with 5 teachers and 10 students
+
+
+BRUTE FORCE
+0.247 seconds for 2000 trials with 6 teachers and 12 students
+
+BRUTE FORCE MODIFIED
+0.09 seconds for 2000 trials with 6 teachers and 12 students
+
+
+BRUTE FORCE
+0.561 seconds for 2000 trials with 7 teachers and 14 students
+
+BRUTE FORCE MODIFIED
+0.249 seconds for 2000 trials with 7 teachers and 14 students
+
+
+BRUTE FORCE
+0.916 seconds for 2000 trials with 8 teachers and 16 students
+
+BRUTE FORCE MODIFIED
+0.572 seconds for 2000 trials with 8 teachers and 16 students
+
+
+BRUTE FORCE
+2.065 seconds for 2000 trials with 9 teachers and 18 students
+
+BRUTE FORCE MODIFIED
+1.349 seconds for 2000 trials with 9 teachers and 18 students
+
+
+BRUTE FORCE
+5.211 seconds for 2000 trials with 10 teachers and 20 students
+
+BRUTE FORCE MODIFIED
+3.275 seconds for 2000 trials with 10 teachers and 20 students
+
+
+BRUTE FORCE
+11.323 seconds for 2000 trials with 11 teachers and 22 students
+
+BRUTE FORCE MODIFIED
+7.253 seconds for 2000 trials with 11 teachers and 22 students
+
+
+BRUTE FORCE
+29.382 seconds for 2000 trials with 12 teachers and 24 students
+
+BRUTE FORCE MODIFIED
+18.871 seconds for 2000 trials with 12 teachers and 24 students
+
+
+BRUTE FORCE
+66.434 seconds for 2000 trials with 13 teachers and 26 students
+
+BRUTE FORCE MODIFIED
+43.118 seconds for 2000 trials with 13 teachers and 26 students
+
+
+BRUTE FORCE
+183.763 seconds for 2000 trials with 14 teachers and 28 students
+
+BRUTE FORCE MODIFIED
+112.809 seconds for 2000 trials with 14 teachers and 28 students
+
+
+BRUTE FORCE
+540.684 seconds for 2000 trials with 15 teachers and 30 students
+
+BRUTE FORCE MODIFIED
+239.366 seconds for 2000 trials with 15 teachers and 30 students
