@@ -1,0 +1,145 @@
+Running trials
+
+
+BRUTE FORCE
+0.063 seconds for 5000 trials with 2 teachers and 4 students
+
+BRUTE FORCE MODIFIED
+0.031 seconds for 5000 trials with 2 teachers and 4 students
+
+BRUTE FORCE UPFRONT WORK
+0.015 seconds for 5000 trials with 2 teachers and 4 students
+
+
+BRUTE FORCE
+0.079 seconds for 5000 trials with 3 teachers and 6 students
+
+BRUTE FORCE MODIFIED
+0.046 seconds for 5000 trials with 3 teachers and 6 students
+
+BRUTE FORCE UPFRONT WORK
+0.047 seconds for 5000 trials with 3 teachers and 6 students
+
+
+BRUTE FORCE
+0.19 seconds for 5000 trials with 4 teachers and 8 students
+
+BRUTE FORCE MODIFIED
+0.074 seconds for 5000 trials with 4 teachers and 8 students
+
+BRUTE FORCE UPFRONT WORK
+0.089 seconds for 5000 trials with 4 teachers and 8 students
+
+
+BRUTE FORCE
+0.147 seconds for 5000 trials with 5 teachers and 10 students
+
+BRUTE FORCE MODIFIED
+0.094 seconds for 5000 trials with 5 teachers and 10 students
+
+BRUTE FORCE UPFRONT WORK
+0.093 seconds for 5000 trials with 5 teachers and 10 students
+
+
+BRUTE FORCE
+0.407 seconds for 5000 trials with 6 teachers and 12 students
+
+BRUTE FORCE MODIFIED
+0.223 seconds for 5000 trials with 6 teachers and 12 students
+
+BRUTE FORCE UPFRONT WORK
+0.188 seconds for 5000 trials with 6 teachers and 12 students
+
+
+BRUTE FORCE
+0.844 seconds for 5000 trials with 7 teachers and 14 students
+
+BRUTE FORCE MODIFIED
+0.546 seconds for 5000 trials with 7 teachers and 14 students
+
+BRUTE FORCE UPFRONT WORK
+0.485 seconds for 5000 trials with 7 teachers and 14 students
+
+
+BRUTE FORCE
+2.439 seconds for 5000 trials with 8 teachers and 16 students
+
+BRUTE FORCE MODIFIED
+1.364 seconds for 5000 trials with 8 teachers and 16 students
+
+BRUTE FORCE UPFRONT WORK
+1.132 seconds for 5000 trials with 8 teachers and 16 students
+
+
+BRUTE FORCE
+4.958 seconds for 5000 trials with 9 teachers and 18 students
+
+BRUTE FORCE MODIFIED
+3.134 seconds for 5000 trials with 9 teachers and 18 students
+
+BRUTE FORCE UPFRONT WORK
+2.673 seconds for 5000 trials with 9 teachers and 18 students
+
+
+BRUTE FORCE
+11.661 seconds for 5000 trials with 10 teachers and 20 students
+
+BRUTE FORCE MODIFIED
+7.989 seconds for 5000 trials with 10 teachers and 20 students
+
+BRUTE FORCE UPFRONT WORK
+6.131 seconds for 5000 trials with 10 teachers and 20 students
+
+
+BRUTE FORCE
+27.473 seconds for 5000 trials with 11 teachers and 22 students
+
+BRUTE FORCE MODIFIED
+18.194 seconds for 5000 trials with 11 teachers and 22 students
+
+BRUTE FORCE UPFRONT WORK
+14.835 seconds for 5000 trials with 11 teachers and 22 students
+
+
+BRUTE FORCE
+66.097 seconds for 5000 trials with 12 teachers and 24 students
+
+BRUTE FORCE MODIFIED
+46.279 seconds for 5000 trials with 12 teachers and 24 students
+
+BRUTE FORCE UPFRONT WORK
+35.266 seconds for 5000 trials with 12 teachers and 24 students
+
+
+BRUTE FORCE
+166.155 seconds for 5000 trials with 13 teachers and 26 students
+
+BRUTE FORCE MODIFIED
+109.259 seconds for 5000 trials with 13 teachers and 26 students
+
+BRUTE FORCE UPFRONT WORK
+90.109 seconds for 5000 trials with 13 teachers and 26 students
+
+
+BRUTE FORCE
+445.756 seconds for 5000 trials with 14 teachers and 28 students
+
+BRUTE FORCE MODIFIED
+307.076 seconds for 5000 trials with 14 teachers and 28 students
+
+BRUTE FORCE UPFRONT WORK
+223.917 seconds for 5000 trials with 14 teachers and 28 students
+
+
+BRUTE FORCE
+1499.857 seconds for 5000 trials with 15 teachers and 30 students
+
+BRUTE FORCE MODIFIED
+618.194 seconds for 5000 trials with 15 teachers and 30 students
+
+BRUTE FORCE UPFRONT WORK
+511.559 seconds for 5000 trials with 15 teachers and 30 students
+
+Checking for discrepancies
+
+0 discrepancies
