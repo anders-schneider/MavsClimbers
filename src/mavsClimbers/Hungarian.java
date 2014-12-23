@@ -1,6 +1,7 @@
 package mavsClimbers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Hungarian implements MavClimberFinder {
@@ -12,7 +13,9 @@ public class Hungarian implements MavClimberFinder {
 	private HashMap trial;
 	private int scoreToBeat;
 	private int numStudents;
+	private int numTeachers;
 	private int[][] matrix;
+	private int[][] adjacencyMatrix;
 	
 	public static void main(String[] args) {
 		Hungarian hungarian = new Hungarian();
@@ -58,10 +61,12 @@ public class Hungarian implements MavClimberFinder {
 		
 		finalAssignments = new ArrayList<HashMap>();
 		
+		numTeachers = teacherList.length;
 		numNoms = teacherList[0].howManyNoms();
 		
 		createStudentList();
 		matrix = new int[numStudents][numStudents];
+		adjacencyMatrix = new int[2 * numStudents + 2][2 * numStudents + 2];
 		populateMatrix();
 		
 		for (int row = 0; row < numStudents; row++) {
@@ -81,11 +86,14 @@ public class Hungarian implements MavClimberFinder {
 			}
 			System.out.println("");
 		}
+		System.out.println("");
+		
+		findMaximumMatching();
 	}
 				
 	private void createStudentList() {
 		studentList = new ArrayList<Student>();
-		for (int i = 0; i < teacherList.length; i++) {
+		for (int i = 0; i < numTeachers; i++) {
 			Teacher teacher = teacherList[i];
 			for (int j = 0; j < numNoms; j++) {
 				Student student = teacher.getMavNom(j);
@@ -98,12 +106,12 @@ public class Hungarian implements MavClimberFinder {
 	}
 	
 	private void populateMatrix() {
-		for (int teacherIndex = 0; teacherIndex < teacherList.length; teacherIndex++) {
+		for (int teacherIndex = 0; teacherIndex < numTeachers; teacherIndex++) {
 			Teacher teacher = teacherList[teacherIndex];
 			for (int j = 0; j < numNoms; j++) {
 				Student student = teacher.getMavNom(j);
 				int studentIndex = studentList.indexOf(student);
-				matrix[studentIndex][teacherIndex] = j + 1;
+				matrix[teacherIndex][studentIndex] = j + 1;
 			}
 		}
 		
@@ -145,6 +153,141 @@ public class Hungarian implements MavClimberFinder {
 		}
 	}
 
+	private void findMaximumMatching() {
+		clearAdjacencyMatrix();
+		populateAdjacencyMatrix();
+		
+		for (int i = 0; i < 2 * numStudents + 2; i++) {
+			for (int j = 0; j < 2 * numStudents + 2; j ++) {
+				System.out.print(adjacencyMatrix[i][j] + " ");
+			}
+			System.out.println("");
+		}
+		System.out.println("");
+		
+		int[][] residualGraph = adjacencyMatrix;
+		int[][] flowNetwork = new int[2 * numStudents + 2][2 * numStudents + 2];
+		
+		boolean augPathExists = true;
+		
+		while (augPathExists) {
+			
+			ArrayList<Integer> currentPath = new ArrayList<Integer>();
+			boolean isAugPath = false;
+			boolean[] visited = new boolean[2 * numStudents + 2];
+			
+			/* Start at source, look for any outgoing edge */
+			currentPath.add(0);
+			visited[0] = true;
+			int i = 1;
+			while (residualGraph[0][i] == 0 && (i < numStudents + 1)) {i++;}
+			
+			/* If there are no viable outgoing edges, break out of the loop */
+			if (i == numStudents + 1) {
+				break;
+			}
+
+			/* Otherwise, add the found node to the current path */
+			int currentNode = i;
+			currentPath.add(currentNode);
+			visited[currentNode] = true;
+			
+			while (true) {
+				/* At the teacher level, search for an edge to a student */
+				i = numStudents + 1;
+				while ((i < 2 * numStudents + 1) && ((visited[i]) || (residualGraph[currentNode][i] == 0))) {i++;}
+				
+				/* If there are no edges to students, break out of the loop */
+				if (i == 2 * numStudents + 1) {
+					break;
+				}
+				
+				/* Arrived at the student level */
+				currentNode = i;
+				currentPath.add(currentNode);
+				visited[currentNode] = true;
+				
+				/* Check if there is a path to the sink */
+				if (residualGraph[currentNode][2 * numStudents + 1] == 1) {
+					currentPath.add(2 * numStudents + 1);
+					visited[2 * numStudents + 1] = true;
+					isAugPath = true;
+					break;
+				}
+				
+				/* Otherwise go back and search for an edge to a teacher to go back to */
+				i = 1;
+				while ((i < numStudents + 1) && ((visited[i]) || (residualGraph[currentNode][i] == 0))) {i++;}
+				
+				/* If no teachers to go back to, break out of the loop */
+				if (i == numStudents + 1) {
+					break;
+				}
+				
+				/* Found a teacher, at the teacher level */
+				currentNode = i;
+				currentPath.add(currentNode);
+				visited[currentNode] = true;
+			}
+			
+			if (isAugPath) {
+				// update Flow network and residual graph
+				int pairIndex = 0;
+				int firstNode, secondNode;
+				while (pairIndex < currentPath.size() - 1) {
+					firstNode = currentPath.get(pairIndex);
+					secondNode = currentPath.get(pairIndex + 1);
+					if (flowNetwork[secondNode][firstNode] == 1) {
+						flowNetwork[secondNode][firstNode] = 0;
+					} else {
+						flowNetwork[firstNode][secondNode] = 1;
+					}
+					
+					residualGraph[firstNode][secondNode] = 0;
+					residualGraph[secondNode][firstNode] = 1;
+					
+					pairIndex++;
+				}
+			}
+		}
+		
+		for (int i = 0; i < 2 * numStudents + 2; i++) {
+			for (int j = 0; j < 2 * numStudents + 2; j ++) {
+				System.out.print(flowNetwork[i][j] + " ");
+			}
+			System.out.println("");
+		}
+		System.out.println("");
+	}
+	
+	private void clearAdjacencyMatrix() {
+		for (int i = 0; i < 2 * numStudents + 2; i++) {
+			Arrays.fill(adjacencyMatrix[i], 0);
+		}
+	}
+	
+	private void populateAdjacencyMatrix() {
+		int i = 1;
+		while(i < numStudents + 1) {
+			adjacencyMatrix[0][i] = 1;
+			i++;
+		}
+		
+		for (int teacherIndex = 0; teacherIndex < numTeachers; teacherIndex++) {
+			for (int studentIndex = 0; studentIndex < numStudents; studentIndex++) {
+				if (matrix[teacherIndex][studentIndex] == 0) {
+					adjacencyMatrix[teacherIndex + 1][studentIndex + numStudents + 1] = 1;
+				}
+			}
+		}
+		
+		int j = 2 * numStudents + 1;
+		i = 1 + numStudents;
+		while (i < 2 * numStudents + 1) {
+			adjacencyMatrix[i][j] = 1;
+			i++;
+		}
+	}
 
 	private int findMin(int[] group) {
 		int min = group[0];
