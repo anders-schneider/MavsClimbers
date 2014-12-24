@@ -16,6 +16,12 @@ public class Hungarian implements MavClimberFinder {
 	private int numTeachers;
 	private int[][] matrix;
 	private int[][] adjacencyMatrix;
+	private int[][] flowNetwork;
+	private int[][] residualGraph;
+	private boolean augPathExists;
+	private boolean isAugPath;
+	ArrayList<Integer> currentPath = new ArrayList<Integer>();
+	boolean [] visited;
 	
 	public static void main(String[] args) {
 		Hungarian hungarian = new Hungarian();
@@ -26,7 +32,7 @@ public class Hungarian implements MavClimberFinder {
 
 	@Override
 	public void readInNoms() {
-		teacherList = new Teacher[3];
+		teacherList = new Teacher[2];
 		Teacher schneider = new Teacher("Schneider", "Physics");
 		Student a = new Student("A", schneider, 1);
 		Student b = new Student("B", schneider, 2);
@@ -34,20 +40,20 @@ public class Hungarian implements MavClimberFinder {
 		Student[] sMavNoms = {a, b, c};
 		schneider.addNoms(sMavNoms);
 		Teacher yu = new Teacher("Yu", "Algebra");
-		Student d = new Student("A", yu, 1);
-		Student e = new Student("C", yu, 2);
+		Student d = new Student("C", yu, 1);
+		Student e = new Student("A", yu, 2);
 		Student f = new Student("B", yu, 3);
 		Student[] yMavNoms = {d, e, f};
 		yu.addNoms(yMavNoms);
 		Teacher rodd = new Teacher("Rodd", "English");
-		Student g = new Student("C", rodd, 1);
-		Student h = new Student("A", rodd, 2);
-		Student i = new Student("B", rodd, 3);
+		Student g = new Student("B", rodd, 1);
+		Student h = new Student("C", rodd, 2);
+		Student i = new Student("A", rodd, 3);
 		Student[] rMavNoms = {g, h, i};
 		rodd.addNoms(rMavNoms);
 		teacherList[0] = schneider;
 		teacherList[1] = yu;
-		teacherList[2] = rodd;
+		//teacherList[2] = rodd;
 		numNoms = 3;
 	}
 	
@@ -67,6 +73,8 @@ public class Hungarian implements MavClimberFinder {
 		createStudentList();
 		matrix = new int[numStudents][numStudents];
 		adjacencyMatrix = new int[2 * numStudents + 2][2 * numStudents + 2];
+		flowNetwork = new int[2 * numStudents + 2][2 * numStudents + 2];
+		visited = new boolean[2 * numStudents + 2];
 		populateMatrix();
 		
 		for (int row = 0; row < numStudents; row++) {
@@ -157,53 +165,53 @@ public class Hungarian implements MavClimberFinder {
 		clearAdjacencyMatrix();
 		populateAdjacencyMatrix();
 		
-		for (int i = 0; i < 2 * numStudents + 2; i++) {
-			for (int j = 0; j < 2 * numStudents + 2; j ++) {
-				System.out.print(adjacencyMatrix[i][j] + " ");
-			}
-			System.out.println("");
-		}
-		System.out.println("");
+		printAdjacencyMatrix();
+				
+		residualGraph = adjacencyMatrix;
 		
-		int[][] residualGraph = adjacencyMatrix;
-		int[][] flowNetwork = new int[2 * numStudents + 2][2 * numStudents + 2];
-		
-		boolean augPathExists = true;
+		augPathExists = true;
+		int currentNode, nextNode, i;
 		
 		while (augPathExists) {
 			
-			ArrayList<Integer> currentPath = new ArrayList<Integer>();
-			boolean isAugPath = false;
-			boolean[] visited = new boolean[2 * numStudents + 2];
+			/* Best way to set this up would be:
+			 * If (just starting)
+			 * Else (at teacher level)
+			 * Else (at student level)
+			 */
 			
-			/* Start at source, look for any outgoing edge */
-			currentPath.add(0);
-			visited[0] = true;
-			int i = 1;
-			while (residualGraph[0][i] == 0 && (i < numStudents + 1)) {i++;}
-			
-			/* If there are no viable outgoing edges, break out of the loop */
-			if (i == numStudents + 1) {
-				break;
+			if (currentPath.get(currentPath.size() - 1) == 2 * numStudents + 1) {
+				setUpForNewPath();
 			}
-
-			/* Otherwise, add the found node to the current path */
-			int currentNode = i;
-			currentPath.add(currentNode);
-			visited[currentNode] = true;
 			
+			if (currentPath.size() % 2 == 0) {
+				
+				i = 1;
+				while (residualGraph[0][i] == 0 && (i < numStudents + 1)) {i++;}
+				
+				/* If there are no viable outgoing edges, break out of the loop */
+				if (i == numStudents + 1) {
+					break;
+				}
+	
+				/* Otherwise, add the found node to the current path */
+				currentNode = i;
+				currentPath.add(currentNode);
+				visited[currentNode] = true;
+			} else {
+				currentNode = currentPath.get(currentPath.size() - 1);
+			}
+				
 			while (true) {
-				/* At the teacher level, search for an edge to a student */
-				i = numStudents + 1;
-				while ((i < 2 * numStudents + 1) && ((visited[i]) || (residualGraph[currentNode][i] == 0))) {i++;}
+				nextNode = searchFromTeacherLevel(currentNode);
 				
 				/* If there are no edges to students, break out of the loop */
-				if (i == 2 * numStudents + 1) {
+				if (nextNode == 2 * numStudents + 1) {
 					break;
 				}
 				
 				/* Arrived at the student level */
-				currentNode = i;
+				currentNode = nextNode;
 				currentPath.add(currentNode);
 				visited[currentNode] = true;
 				
@@ -248,9 +256,36 @@ public class Hungarian implements MavClimberFinder {
 					
 					pairIndex++;
 				}
+			} else {
+				int lastNodeVisitedIndex = currentPath.size() - 1;
+				int lastNodeVisited = currentPath.get(lastNodeVisitedIndex);
+				visited[lastNodeVisited] = true;
+				currentPath.remove(lastNodeVisitedIndex);
 			}
 		}
+		printFlowNetwork();
+	}
+	
+	private void setUpForNewPath() {
+		currentPath.clear();
 		
+		isAugPath = false;
+		Arrays.fill(visited, false);
+		
+		/* Start at source, look for any outgoing edge */
+		currentPath.add(0);
+		visited[0] = true;		
+	}
+
+	private int searchFromTeacherLevel(int currentNode) {
+		/* At the teacher level, search for an edge to a student */
+		int i = numStudents + 1;
+		while ((i < 2 * numStudents + 1) && ((visited[i]) || (residualGraph[currentNode][i] == 0))) {i++;}
+		
+		return i;
+	}
+
+	private void printFlowNetwork() {
 		for (int i = 0; i < 2 * numStudents + 2; i++) {
 			for (int j = 0; j < 2 * numStudents + 2; j ++) {
 				System.out.print(flowNetwork[i][j] + " ");
@@ -259,7 +294,17 @@ public class Hungarian implements MavClimberFinder {
 		}
 		System.out.println("");
 	}
-	
+
+	private void printAdjacencyMatrix() {
+		for (int i = 0; i < 2 * numStudents + 2; i++) {
+			for (int j = 0; j < 2 * numStudents + 2; j ++) {
+				System.out.print(adjacencyMatrix[i][j] + " ");
+			}
+			System.out.println("");
+		}
+		System.out.println("");
+	}
+
 	private void clearAdjacencyMatrix() {
 		for (int i = 0; i < 2 * numStudents + 2; i++) {
 			Arrays.fill(adjacencyMatrix[i], 0);
@@ -273,7 +318,7 @@ public class Hungarian implements MavClimberFinder {
 			i++;
 		}
 		
-		for (int teacherIndex = 0; teacherIndex < numTeachers; teacherIndex++) {
+		for (int teacherIndex = 0; teacherIndex < numStudents; teacherIndex++) {
 			for (int studentIndex = 0; studentIndex < numStudents; studentIndex++) {
 				if (matrix[teacherIndex][studentIndex] == 0) {
 					adjacencyMatrix[teacherIndex + 1][studentIndex + numStudents + 1] = 1;
