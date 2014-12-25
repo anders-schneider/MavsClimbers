@@ -89,6 +89,10 @@ public class Hungarian implements MavClimberFinder {
 		subtractMinFrom("row");
 		subtractMinFrom("column");
 		
+		int[][] setMatrix = {{0, 1, 1}, {0, 0, 0}, {0, 1, 1}};
+		
+		matrix = setMatrix;
+		
 		for (int row = 0; row < numStudents; row++) {
 			for (int col = 0; col < numStudents; col++) {
 				System.out.print(matrix[row][col] + " ");
@@ -229,7 +233,6 @@ public class Hungarian implements MavClimberFinder {
 				
 				if ("Completed augmenting path".equals(status)) {
 					
-					currentNode = 7;
 					updateFlowNetworkAndResidualGraph(currentPath);
 					status = "Beginning new path";
 					
@@ -277,7 +280,7 @@ public class Hungarian implements MavClimberFinder {
 	private ArrayList<Integer> searchForTeacherNode(ArrayList<Integer> currentPath) {
 		/* Look for a teacher node to travel to */
 		int i = 1;
-		while (residualGraph[currentNode][i] == 0 && (i < numStudents + 1)) {i++;}
+		while ((i < numStudents + 1) && ((visited[i]) || (residualGraph[currentNode][i] == 0))) {i++;}
 		
 		/* If there are no edges to teachers, break out of the loop */
 		if (i == numStudents + 1) {
@@ -318,6 +321,7 @@ public class Hungarian implements MavClimberFinder {
 		if (residualGraph[currentNode][2 * numStudents + 1] == 1) {
 			currentPath.add(2 * numStudents + 1);
 			visited[2 * numStudents + 1] = true;
+			currentNode = 2 * numStudents + 1;
 			isAugPath = true;
 			status = "Completed augmenting path";
 		}
