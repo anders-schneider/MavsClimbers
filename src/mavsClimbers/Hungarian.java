@@ -20,8 +20,9 @@ public class Hungarian implements MavClimberFinder {
 	private int[][] residualGraph;
 	private boolean augPathExists;
 	private boolean isAugPath;
-	ArrayList<Integer> currentPath = new ArrayList<Integer>();
 	boolean [] visited;
+	int currentNode, nextNode;
+	String status;
 	
 	public static void main(String[] args) {
 		Hungarian hungarian = new Hungarian();
@@ -32,7 +33,7 @@ public class Hungarian implements MavClimberFinder {
 
 	@Override
 	public void readInNoms() {
-		teacherList = new Teacher[2];
+		teacherList = new Teacher[3];
 		Teacher schneider = new Teacher("Schneider", "Physics");
 		Student a = new Student("A", schneider, 1);
 		Student b = new Student("B", schneider, 2);
@@ -40,8 +41,8 @@ public class Hungarian implements MavClimberFinder {
 		Student[] sMavNoms = {a, b, c};
 		schneider.addNoms(sMavNoms);
 		Teacher yu = new Teacher("Yu", "Algebra");
-		Student d = new Student("C", yu, 1);
-		Student e = new Student("A", yu, 2);
+		Student d = new Student("A", yu, 1);
+		Student e = new Student("C", yu, 2);
 		Student f = new Student("B", yu, 3);
 		Student[] yMavNoms = {d, e, f};
 		yu.addNoms(yMavNoms);
@@ -53,7 +54,7 @@ public class Hungarian implements MavClimberFinder {
 		rodd.addNoms(rMavNoms);
 		teacherList[0] = schneider;
 		teacherList[1] = yu;
-		//teacherList[2] = rodd;
+		teacherList[2] = rodd;
 		numNoms = 3;
 	}
 	
@@ -169,104 +170,94 @@ public class Hungarian implements MavClimberFinder {
 				
 		residualGraph = adjacencyMatrix;
 		
-		augPathExists = true;
-		int currentNode, nextNode, i;
+		status = "Beginning new path";
 		
-		while (augPathExists) {
+		augPathExists = true;
+		ArrayList<Integer> currentPath = new ArrayList<Integer>();
+		
+		while (augPathExists) {	
 			
-			/* Best way to set this up would be:
-			 * If (just starting)
-			 * Else (at teacher level)
-			 * Else (at student level)
-			 */
-			
-			if (currentPath.get(currentPath.size() - 1) == 2 * numStudents + 1) {
-				setUpForNewPath();
-			}
-			
-			if (currentPath.size() % 2 == 0) {
+			if ("Beginning new path".equals(status)) {
 				
-				i = 1;
-				while (residualGraph[0][i] == 0 && (i < numStudents + 1)) {i++;}
+				currentPath = setUpForNewPath(currentPath);
+				currentPath = searchForTeacherNode(currentPath);
 				
-				/* If there are no viable outgoing edges, break out of the loop */
-				if (i == numStudents + 1) {
-					break;
-				}
-	
-				/* Otherwise, add the found node to the current path */
-				currentNode = i;
-				currentPath.add(currentNode);
-				visited[currentNode] = true;
-			} else {
-				currentNode = currentPath.get(currentPath.size() - 1);
-			}
-				
-			while (true) {
-				nextNode = searchFromTeacherLevel(currentNode);
-				
-				/* If there are no edges to students, break out of the loop */
-				if (nextNode == 2 * numStudents + 1) {
+				if ("Beginning new path".equals(status)) {
+					/* No teacher nodes to travel to; no more augmenting paths */
+					augPathExists = false;
 					break;
 				}
 				
-				/* Arrived at the student level */
-				currentNode = nextNode;
-				currentPath.add(currentNode);
-				visited[currentNode] = true;
+			} else if ("At source node".equals(status)) {
 				
-				/* Check if there is a path to the sink */
-				if (residualGraph[currentNode][2 * numStudents + 1] == 1) {
-					currentPath.add(2 * numStudents + 1);
-					visited[2 * numStudents + 1] = true;
-					isAugPath = true;
+				currentPath = searchForTeacherNode(currentPath);
+				
+				if ("At source node".equals(status)) {
+					/* No teacher nodes to travel to; no more augmenting paths */
+					augPathExists = false;
 					break;
 				}
 				
-				/* Otherwise go back and search for an edge to a teacher to go back to */
-				i = 1;
-				while ((i < numStudents + 1) && ((visited[i]) || (residualGraph[currentNode][i] == 0))) {i++;}
+			} else if ("At teacher level".equals(status)) {
 				
-				/* If no teachers to go back to, break out of the loop */
-				if (i == numStudents + 1) {
-					break;
-				}
+				currentPath = searchForStudentNode(currentPath);
 				
-				/* Found a teacher, at the teacher level */
-				currentNode = i;
-				currentPath.add(currentNode);
-				visited[currentNode] = true;
-			}
-			
-			if (isAugPath) {
-				// update Flow network and residual graph
-				int pairIndex = 0;
-				int firstNode, secondNode;
-				while (pairIndex < currentPath.size() - 1) {
-					firstNode = currentPath.get(pairIndex);
-					secondNode = currentPath.get(pairIndex + 1);
-					if (flowNetwork[secondNode][firstNode] == 1) {
-						flowNetwork[secondNode][firstNode] = 0;
+				if ("At teacher level".equals(status)) {
+					// Couldn't find a student node to travel to
+					
+					// Mark this node as visited
+					visited[currentNode] = true;
+					
+					// Remove this node from the path
+					int lengthOfPath = currentPath.size();
+					currentPath.remove(lengthOfPath - 1);
+					
+					// Go back to the last node
+					currentNode = currentPath.get(lengthOfPath - 2);
+					
+					// Update the status
+					if (currentNode == 0) {
+						status = "At source node";
 					} else {
-						flowNetwork[firstNode][secondNode] = 1;
+						status = "At student level";
 					}
-					
-					residualGraph[firstNode][secondNode] = 0;
-					residualGraph[secondNode][firstNode] = 1;
-					
-					pairIndex++;
 				}
-			} else {
-				int lastNodeVisitedIndex = currentPath.size() - 1;
-				int lastNodeVisited = currentPath.get(lastNodeVisitedIndex);
-				visited[lastNodeVisited] = true;
-				currentPath.remove(lastNodeVisitedIndex);
+			
+			} else if ("At student level".equals(status)) {
+				
+				currentPath = searchForEdgeToSink(currentPath);
+				
+				if ("Completed augmenting path".equals(status)) {
+					
+					currentPath = updateFlowNetworkAndResidualGraph(currentPath);
+					status = "Beginning new path";
+					
+				} else {
+					currentPath = searchForTeacherNode(currentPath);
+					
+					if ("At student level".equals(status)) {
+						// Couldn't find edge back to teacher level
+						
+						// Mark this node as visited
+						visited[currentNode] = true;
+						
+						// Remove this node from the path
+						int lengthOfPath = currentPath.size();
+						currentPath.remove(lengthOfPath - 1);
+						
+						// Go back to the last node
+						currentNode = currentPath.get(lengthOfPath - 2);
+						
+						// Update the status
+						status = "At teacher level";
+					}
+				}
 			}
-		}
+		}	
 		printFlowNetwork();
 	}
 	
-	private void setUpForNewPath() {
+	private ArrayList<Integer> setUpForNewPath(ArrayList<Integer> currentPath) {
 		currentPath.clear();
 		
 		isAugPath = false;
@@ -274,17 +265,85 @@ public class Hungarian implements MavClimberFinder {
 		
 		/* Start at source, look for any outgoing edge */
 		currentPath.add(0);
-		visited[0] = true;		
+		visited[0] = true;
+		
+		return currentPath;
+	}
+	
+	private ArrayList<Integer> searchForTeacherNode(ArrayList<Integer> currentPath) {
+		/* Look for a teacher node to travel to */
+		int i = 1;
+		while (residualGraph[0][i] == 0 && (i < numStudents + 1)) {i++;}
+		
+		/* If there are no edges to teachers, break out of the loop */
+		if (i == numStudents + 1) {
+			return currentPath;
+		}
+
+		/* Otherwise, add the found node to the current path */
+		currentNode = i;
+		currentPath.add(currentNode);
+		visited[currentNode] = true;
+		status = "At teacher level";
+
+		return currentPath;
 	}
 
-	private int searchFromTeacherLevel(int currentNode) {
+	private ArrayList<Integer> searchForStudentNode(ArrayList<Integer> currentPath) {
 		/* At the teacher level, search for an edge to a student */
 		int i = numStudents + 1;
 		while ((i < 2 * numStudents + 1) && ((visited[i]) || (residualGraph[currentNode][i] == 0))) {i++;}
 		
-		return i;
+		/* If there are no edges to students, break out of the loop */
+		if (i == 2 * numStudents + 1) {
+			status = "At teacher level";
+			return currentPath;
+		}
+		
+		/* Arrived at the student level */
+		currentNode = i;
+		currentPath.add(currentNode);
+		visited[currentNode] = true;
+		status = "At student level";
+
+		return currentPath;
 	}
 
+	private ArrayList<Integer> searchForEdgeToSink(ArrayList<Integer> currentPath) {
+		/* Check if there is a path to the sink */
+		if (residualGraph[currentNode][2 * numStudents + 1] == 1) {
+			currentPath.add(2 * numStudents + 1);
+			visited[2 * numStudents + 1] = true;
+			isAugPath = true;
+			status = "Completed augmenting path";
+		}
+
+		return currentPath;
+	}
+	
+	private ArrayList<Integer> updateFlowNetworkAndResidualGraph(ArrayList<Integer> currentPath) {
+		// update Flow network and residual graph
+		int pairIndex = 0;
+		int firstNode, secondNode;
+		
+		while (pairIndex < currentPath.size() - 1) {
+			firstNode = currentPath.get(pairIndex);
+			secondNode = currentPath.get(pairIndex + 1);
+			if (flowNetwork[secondNode][firstNode] == 1) {
+				flowNetwork[secondNode][firstNode] = 0;
+			} else {
+				flowNetwork[firstNode][secondNode] = 1;
+			}
+			
+			residualGraph[firstNode][secondNode] = 0;
+			residualGraph[secondNode][firstNode] = 1;
+			
+			pairIndex++;
+		}
+		
+		return currentPath;
+	}
+	
 	private void printFlowNetwork() {
 		for (int i = 0; i < 2 * numStudents + 2; i++) {
 			for (int j = 0; j < 2 * numStudents + 2; j ++) {
