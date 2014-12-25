@@ -33,7 +33,7 @@ public class Hungarian implements MavClimberFinder {
 
 	@Override
 	public void readInNoms() {
-		teacherList = new Teacher[3];
+		teacherList = new Teacher[2];
 		Teacher schneider = new Teacher("Schneider", "Physics");
 		Student a = new Student("A", schneider, 1);
 		Student b = new Student("B", schneider, 2);
@@ -54,7 +54,7 @@ public class Hungarian implements MavClimberFinder {
 		rodd.addNoms(rMavNoms);
 		teacherList[0] = schneider;
 		teacherList[1] = yu;
-		teacherList[2] = rodd;
+		//teacherList[2] = rodd;
 		numNoms = 3;
 	}
 	
@@ -81,15 +81,14 @@ public class Hungarian implements MavClimberFinder {
 		//int[][] setMatrix = {{1, 4, 5}, {5, 7, 6}, {5, 8, 8}};
 		//matrix = setMatrix;
 		
-		printMatrix();
-		
+		//printMatrix();
 
 		while (true) {
 		
 			subtractMinFrom("row");
 			subtractMinFrom("column");
 		
-			printMatrix();
+			//printMatrix();
 		
 			findMaximumMatching();
 		
@@ -100,7 +99,7 @@ public class Hungarian implements MavClimberFinder {
 			
 			adjustMatrix();
 			
-			printMatrix();
+			//printMatrix();
 		}
 	}
 				
@@ -317,7 +316,7 @@ public class Hungarian implements MavClimberFinder {
 				}
 			}
 		}	
-		printFlowNetwork();
+		//printFlowNetwork();
 	}
 	
 	private ArrayList<Integer> setUpForNewPath(ArrayList<Integer> currentPath) {
@@ -502,9 +501,9 @@ public class Hungarian implements MavClimberFinder {
 		trial = new HashMap();
 		for (int i = 1; i <= numTeachers; i++) {
 			int teacherIndex = i - 1;
-			int studentIndex;
+			int studentIndex = -1;
 			int j = numStudents + 1;
-			while (true) {
+			while (j < 2 * numStudents + 1) {
 				if (flowNetwork[i][j] == 1) {
 					studentIndex = j - (numStudents + 1);
 					break;
