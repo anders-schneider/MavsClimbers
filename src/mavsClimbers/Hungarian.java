@@ -78,25 +78,29 @@ public class Hungarian implements MavClimberFinder {
 		visited = new boolean[2 * numStudents + 2];
 		populateMatrix();
 		
-		int[][] setMatrix = {{1, 4, 5}, {5, 7, 6}, {5, 8, 8}};
-		matrix = setMatrix;
+		//int[][] setMatrix = {{1, 4, 5}, {5, 7, 6}, {5, 8, 8}};
+		//matrix = setMatrix;
 		
 		printMatrix();
 		
-		subtractMinFrom("row");
-		subtractMinFrom("column");
-		
-		printMatrix();
-		
+
 		while (true) {
+		
+			subtractMinFrom("row");
+			subtractMinFrom("column");
+		
+			printMatrix();
 		
 			findMaximumMatching();
 		
 			if (isPerfectMatching()) {
+				populateFinalAssignments();
 				break;
 			}
 			
 			adjustMatrix();
+			
+			printMatrix();
 		}
 	}
 				
@@ -182,12 +186,12 @@ public class Hungarian implements MavClimberFinder {
 		
 		int minOfMatrix = findMinOfMatrixNoZeroes();
 		
-		for (int i = 0; i < numStudents; i++) {
-			for (int j = 0; j < numStudents; j++) {
+		for (int i = 1; i < numStudents + 1; i++) {
+			for (int j = numStudents + 1; j < 2 * numStudents + 1; j++) {
 				if (!connectedVertices.contains(i) && !connectedVertices.contains(j)) {
-					matrix[i][j] -= minOfMatrix;
+					matrix[i - 1][j - (numStudents + 1)] -= minOfMatrix;
 				} else if (connectedVertices.contains(i) && connectedVertices.contains(j)) {
-					matrix[i][j] += minOfMatrix;
+					matrix[i - 1][j - (numStudents + 1)] += minOfMatrix;
 				}
 			}
 		}
@@ -214,6 +218,9 @@ public class Hungarian implements MavClimberFinder {
 			for (int j = 0; j < numStudents; j++) {
 				if ((matrix[i][j] < min) && (matrix[i][j] != 0)) {
 					min = matrix[i][j];
+					if (min == 1) {
+						return min;
+					}
 				}
 			}
 		}
@@ -491,6 +498,26 @@ public class Hungarian implements MavClimberFinder {
 		return min;
 	}
 
+	private void populateFinalAssignments () {
+		trial = new HashMap();
+		for (int i = 1; i <= numTeachers; i++) {
+			int teacherIndex = i - 1;
+			int studentIndex;
+			int j = numStudents + 1;
+			while (true) {
+				if (flowNetwork[i][j] == 1) {
+					studentIndex = j - (numStudents + 1);
+					break;
+				}
+				j++;
+			}
+			Teacher teacher = teacherList[teacherIndex];
+			Student student = studentList.get(studentIndex);
+			trial.put(teacher, student);
+		}
+		finalAssignments.add(trial);
+	}
+	
 	public void reportResults() {
 		if (finalAssignments.isEmpty()){
 			System.out.println("No possible solutions.");
