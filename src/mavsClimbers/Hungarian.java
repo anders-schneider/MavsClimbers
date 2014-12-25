@@ -78,32 +78,43 @@ public class Hungarian implements MavClimberFinder {
 		visited = new boolean[2 * numStudents + 2];
 		populateMatrix();
 		
-		for (int row = 0; row < numStudents; row++) {
-			for (int col = 0; col < numStudents; col++) {
-				System.out.print(matrix[row][col] + " ");
-			}
-			System.out.println("");
-		}
-		System.out.println("");
+		int[][] setMatrix = {{1, 4, 5}, {5, 7, 6}, {5, 8, 8}};
+		matrix = setMatrix;
+		
+		printMatrix();
 		
 		subtractMinFrom("row");
 		subtractMinFrom("column");
 		
-		int[][] setMatrix = {{0, 1, 1}, {0, 0, 0}, {0, 1, 1}};
+		printMatrix();
 		
-		matrix = setMatrix;
+		while (true) {
 		
-		for (int row = 0; row < numStudents; row++) {
-			for (int col = 0; col < numStudents; col++) {
-				System.out.print(matrix[row][col] + " ");
+			findMaximumMatching();
+		
+			if (isPerfectMatching()) {
+				break;
 			}
-			System.out.println("");
+			
+			adjustMatrix();
 		}
-		System.out.println("");
-		
-		findMaximumMatching();
 	}
 				
+	private boolean isPerfectMatching() {
+		for (int i = 1; i < numStudents + 1; i++) {
+			boolean hasEdge = false;
+			for (int j = numStudents + 1; j < 2 * numStudents + 1; j++) {
+				if (flowNetwork[i][j] == 1) {
+					hasEdge = true;
+				}
+			}
+			if (!hasEdge) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	private void createStudentList() {
 		studentList = new ArrayList<Student>();
 		for (int i = 0; i < numTeachers; i++) {
@@ -166,11 +177,52 @@ public class Hungarian implements MavClimberFinder {
 		}
 	}
 
+	private void adjustMatrix() {
+		ArrayList<Integer> connectedVertices = findConnectedVertices();
+		
+		int minOfMatrix = findMinOfMatrixNoZeroes();
+		
+		for (int i = 0; i < numStudents; i++) {
+			for (int j = 0; j < numStudents; j++) {
+				if (!connectedVertices.contains(i) && !connectedVertices.contains(j)) {
+					matrix[i][j] -= minOfMatrix;
+				} else if (connectedVertices.contains(i) && connectedVertices.contains(j)) {
+					matrix[i][j] += minOfMatrix;
+				}
+			}
+		}
+	}
+	
+	private ArrayList<Integer> findConnectedVertices() {
+		ArrayList<Integer> connectedVertices = new ArrayList<Integer>();
+		
+		for (int i = 1; i < numStudents + 1; i++) {
+			for (int j = numStudents + 1; j < 2 * numStudents + 1; j++) {
+				if (flowNetwork[i][j] == 1) {
+					connectedVertices.add(i);
+					connectedVertices.add(j);
+					break;
+				}
+			}
+		}
+		return connectedVertices;
+	}
+	
+	private int findMinOfMatrixNoZeroes() {
+		int min = numNoms;
+		for (int i = 0; i < numStudents; i++) {
+			for (int j = 0; j < numStudents; j++) {
+				if ((matrix[i][j] < min) && (matrix[i][j] != 0)) {
+					min = matrix[i][j];
+				}
+			}
+		}
+		return min;
+	}
+	
 	private void findMaximumMatching() {
 		clearAdjacencyMatrix();
 		populateAdjacencyMatrix();
-		
-		printAdjacencyMatrix();
 				
 		residualGraph = adjacencyMatrix.clone();
 		
@@ -235,8 +287,6 @@ public class Hungarian implements MavClimberFinder {
 					
 					updateFlowNetworkAndResidualGraph(currentPath);
 					status = "Beginning new path";
-					
-					printResidualGraph();
 					
 				} else {
 					currentPath = searchForTeacherNode(currentPath);
@@ -348,6 +398,16 @@ public class Hungarian implements MavClimberFinder {
 			
 			pairIndex++;
 		}
+	}
+	
+	private void printMatrix() {
+		for (int row = 0; row < numStudents; row++) {
+			for (int col = 0; col < numStudents; col++) {
+				System.out.print(matrix[row][col] + " ");
+			}
+			System.out.println("");
+		}
+		System.out.println("");
 	}
 	
 	private void printFlowNetwork() {
