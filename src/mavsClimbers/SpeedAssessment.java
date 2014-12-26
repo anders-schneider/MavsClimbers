@@ -21,12 +21,12 @@ import java.util.Random;
 
 public class SpeedAssessment {
 
-	private int numTrials = 2;
+	private int numTrials = 1;
 	private int numNoms = 3;
-	private int[][] inputSizes = {{3, 3}};
+	//private int[][] inputSizes = {{3, 3}};
 	//private int[][] inputSizes = {{15, 30}};
 	//private int[][] inputSizes = {{15, 30}, {14, 28}, {13, 26}, {12, 24}, {11, 22}, {10, 20}, {9, 18}, {8, 16}, {7, 14}, {6, 12}, {5, 10}, {4, 8}, {3, 6}, {2, 4}};
-	//private int[][] inputSizes = {{2, 4}, {3, 6}, {4, 8}, {5, 10}, {6, 12}, {7, 14}, {8, 16}, {9, 18}, {10, 20}, {11, 22}, {12, 24}, {13, 26}, {14, 28}, {15, 30}};
+	private int[][] inputSizes = {{2, 4}, {3, 6}, {4, 8}, {5, 10}, {6, 12}, {7, 14}, {8, 16}, {9, 18}, {10, 20}, {11, 22}, {12, 24}, {13, 26}, {14, 28}, {15, 30}};
 	//private int[][] inputSizes = {{10, 20}, {20, 40}, {30, 60}, {40, 80}, {50, 100}, {60, 120}, {70, 140}, {80, 160}, {90, 180}, {100, 200}};
 	private int numOfDifferentSizedInputs = inputSizes.length;
 	private int maxNumTeachers = inputSizes[numOfDifferentSizedInputs - 1][0];
@@ -245,13 +245,14 @@ public class SpeedAssessment {
 				
 				if (!(bruteForceResults.equals(bruteForceModifiedResults)) || !(bruteForceResults.equals(bruteForceUpfrontWorkResults)) || !(bruteForceResults.contains(hungarianResults.get(0)))) {
 					discrepancyCounter++;
-					System.out.println("DISCREPANCY");
+					System.out.println("\nDISCREPANCY\n");
 					for (int j = 0; j < sampleToRun.length; j++) {
 						System.out.println(sampleToRun[j]);
 						Student[] mavNoms = sampleToRun[j].getMavNomArray(); 
 						for (int index = 0; index < numNoms; index++) {
 							System.out.println(mavNoms[index]);
 						}
+						System.out.println("");
 					}
 					System.out.println("Brute Force Results:");
 					System.out.println(bruteForceResults);
@@ -267,7 +268,7 @@ public class SpeedAssessment {
 				}
 			}
 		}
-		System.out.println("\n" + discrepancyCounter + " discrepancies");
+		System.out.println(discrepancyCounter + " discrepancies");
 	}
 	
 	private void reportResults() {

@@ -1,0 +1,302 @@
+Running trials
+
+
+BRUTE FORCE
+0.001 seconds for 1 trials with 2 teachers and 4 students
+
+BRUTE FORCE MODIFIED
+0.001 seconds for 1 trials with 2 teachers and 4 students
+
+BRUTE FORCE UPFRONT WORK
+0.0 seconds for 1 trials with 2 teachers and 4 students
+
+HUNGARIAN ALGORITHM
+0.0 seconds for 1 trials with 2 teachers and 4 students
+
+
+BRUTE FORCE
+0.0 seconds for 1 trials with 3 teachers and 6 students
+
+BRUTE FORCE MODIFIED
+0.001 seconds for 1 trials with 3 teachers and 6 students
+
+BRUTE FORCE UPFRONT WORK
+0.0 seconds for 1 trials with 3 teachers and 6 students
+
+HUNGARIAN ALGORITHM
+0.0 seconds for 1 trials with 3 teachers and 6 students
+
+
+BRUTE FORCE
+0.0 seconds for 1 trials with 4 teachers and 8 students
+
+BRUTE FORCE MODIFIED
+0.0 seconds for 1 trials with 4 teachers and 8 students
+
+BRUTE FORCE UPFRONT WORK
+0.0 seconds for 1 trials with 4 teachers and 8 students
+
+HUNGARIAN ALGORITHM
+0.001 seconds for 1 trials with 4 teachers and 8 students
+
+
+BRUTE FORCE
+0.001 seconds for 1 trials with 5 teachers and 10 students
+
+BRUTE FORCE MODIFIED
+0.0 seconds for 1 trials with 5 teachers and 10 students
+
+BRUTE FORCE UPFRONT WORK
+0.001 seconds for 1 trials with 5 teachers and 10 students
+
+HUNGARIAN ALGORITHM
+0.001 seconds for 1 trials with 5 teachers and 10 students
+
+
+BRUTE FORCE
+0.002 seconds for 1 trials with 6 teachers and 12 students
+
+BRUTE FORCE MODIFIED
+0.004 seconds for 1 trials with 6 teachers and 12 students
+
+BRUTE FORCE UPFRONT WORK
+0.003 seconds for 1 trials with 6 teachers and 12 students
+
+HUNGARIAN ALGORITHM
+0.001 seconds for 1 trials with 6 teachers and 12 students
+
+
+BRUTE FORCE
+0.003 seconds for 1 trials with 7 teachers and 14 students
+
+BRUTE FORCE MODIFIED
+0.003 seconds for 1 trials with 7 teachers and 14 students
+
+BRUTE FORCE UPFRONT WORK
+0.003 seconds for 1 trials with 7 teachers and 14 students
+
+HUNGARIAN ALGORITHM
+0.0 seconds for 1 trials with 7 teachers and 14 students
+
+
+BRUTE FORCE
+0.009 seconds for 1 trials with 8 teachers and 16 students
+
+BRUTE FORCE MODIFIED
+0.001 seconds for 1 trials with 8 teachers and 16 students
+
+BRUTE FORCE UPFRONT WORK
+0.001 seconds for 1 trials with 8 teachers and 16 students
+
+HUNGARIAN ALGORITHM
+0.001 seconds for 1 trials with 8 teachers and 16 students
+
+
+BRUTE FORCE
+0.013 seconds for 1 trials with 9 teachers and 18 students
+
+BRUTE FORCE MODIFIED
+0.003 seconds for 1 trials with 9 teachers and 18 students
+
+BRUTE FORCE UPFRONT WORK
+0.004 seconds for 1 trials with 9 teachers and 18 students
+
+HUNGARIAN ALGORITHM
+0.001 seconds for 1 trials with 9 teachers and 18 students
+
+
+BRUTE FORCE
+0.006 seconds for 1 trials with 10 teachers and 20 students
+
+BRUTE FORCE MODIFIED
+0.004 seconds for 1 trials with 10 teachers and 20 students
+
+BRUTE FORCE UPFRONT WORK
+0.003 seconds for 1 trials with 10 teachers and 20 students
+
+HUNGARIAN ALGORITHM
+0.001 seconds for 1 trials with 10 teachers and 20 students
+
+
+BRUTE FORCE
+0.021 seconds for 1 trials with 11 teachers and 22 students
+
+BRUTE FORCE MODIFIED
+0.006 seconds for 1 trials with 11 teachers and 22 students
+
+BRUTE FORCE UPFRONT WORK
+0.007 seconds for 1 trials with 11 teachers and 22 students
+
+HUNGARIAN ALGORITHM
+0.002 seconds for 1 trials with 11 teachers and 22 students
+
+
+BRUTE FORCE
+0.113 seconds for 1 trials with 12 teachers and 24 students
+
+BRUTE FORCE MODIFIED
+0.042 seconds for 1 trials with 12 teachers and 24 students
+
+BRUTE FORCE UPFRONT WORK
+0.032 seconds for 1 trials with 12 teachers and 24 students
+
+HUNGARIAN ALGORITHM
+0.005 seconds for 1 trials with 12 teachers and 24 students
+
+
+BRUTE FORCE
+0.08 seconds for 1 trials with 13 teachers and 26 students
+
+BRUTE FORCE MODIFIED
+0.021 seconds for 1 trials with 13 teachers and 26 students
+
+BRUTE FORCE UPFRONT WORK
+0.017 seconds for 1 trials with 13 teachers and 26 students
+
+HUNGARIAN ALGORITHM
+0.002 seconds for 1 trials with 13 teachers and 26 students
+
+
+BRUTE FORCE
+0.253 seconds for 1 trials with 14 teachers and 28 students
+
+BRUTE FORCE MODIFIED
+1.017 seconds for 1 trials with 14 teachers and 28 students
+
+BRUTE FORCE UPFRONT WORK
+0.072 seconds for 1 trials with 14 teachers and 28 students
+
+HUNGARIAN ALGORITHM
+0.001 seconds for 1 trials with 14 teachers and 28 students
+
+
+BRUTE FORCE
+0.166 seconds for 1 trials with 15 teachers and 30 students
+
+BRUTE FORCE MODIFIED
+0.077 seconds for 1 trials with 15 teachers and 30 students
+
+BRUTE FORCE UPFRONT WORK
+0.085 seconds for 1 trials with 15 teachers and 30 students
+
+HUNGARIAN ALGORITHM
+0.0 seconds for 1 trials with 15 teachers and 30 students
+
+Checking for discrepancies
+
+DISCREPANCY
+
+DDURG
+30660079
+11907748
+49480518
+
+UPBQI
+03472557
+11907748
+37311583
+
+FOMEY
+27538024
+20149745
+30660079
+
+NLWGN
+20149745
+30660079
+11907748
+
+QKVXH
+26937159
+20149745
+56824180
+
+SOGFQ
+27538024
+26937159
+49480518
+
+Brute Force Results:
+[{FOMEY=27538024, QKVXH=26937159, UPBQI=03472557, DDURG=30660079, NLWGN=20149745, SOGFQ=49480518}]
+Brute Force Modified Results:
+[{FOMEY=27538024, QKVXH=26937159, UPBQI=03472557, DDURG=30660079, NLWGN=20149745, SOGFQ=49480518}]
+Brute Force Upfront Work Results:
+[{FOMEY=27538024, QKVXH=26937159, UPBQI=03472557, DDURG=30660079, NLWGN=20149745, SOGFQ=49480518}]
+Hungarian Algorithm Results:
+[{FOMEY=27538024, QKVXH=26937159, UPBQI=11907748, DDURG=30660079, NLWGN=20149745, SOGFQ=49480518}]
+
+
+
+DISCREPANCY
+
+QMTCA
+73658759
+37791951
+84376460
+
+YXSUH
+61731898
+42760412
+02431798
+
+ECAYY
+50356189
+52448143
+42760412
+
+UYBDN
+83032320
+74942775
+54649105
+
+WEHXH
+61731898
+50356189
+73658759
+
+CEFJR
+81446744
+39066496
+04391473
+
+HHYJI
+83032320
+67055228
+20212910
+
+TYMHL
+20212910
+96298503
+39066496
+
+MIVXX
+61731898
+50356189
+81446744
+
+USRTO
+34829299
+67673464
+04391473
+
+CBZMV
+39066496
+42760412
+74942775
+
+DWTDT
+84376460
+83032320
+54649105
+
+Brute Force Results:
+[{CEFJR=81446744, DWTDT=84376460, HHYJI=67055228, USRTO=34829299, MIVXX=50356189, UYBDN=83032320, WEHXH=61731898, QMTCA=73658759, TYMHL=20212910, CBZMV=39066496, YXSUH=42760412, ECAYY=52448143}, {CEFJR=81446744, DWTDT=84376460, HHYJI=67055228, USRTO=34829299, MIVXX=61731898, UYBDN=83032320, WEHXH=50356189, QMTCA=73658759, TYMHL=20212910, CBZMV=39066496, YXSUH=42760412, ECAYY=52448143}, {CEFJR=81446744, DWTDT=84376460, HHYJI=83032320, USRTO=34829299, MIVXX=50356189, UYBDN=74942775, WEHXH=61731898, QMTCA=73658759, TYMHL=20212910, CBZMV=39066496, YXSUH=42760412, ECAYY=52448143}, {CEFJR=81446744, DWTDT=84376460, HHYJI=83032320, USRTO=34829299, MIVXX=61731898, UYBDN=74942775, WEHXH=50356189, QMTCA=73658759, TYMHL=20212910, CBZMV=39066496, YXSUH=42760412, ECAYY=52448143}]
+Brute Force Modified Results:
+[{CEFJR=81446744, DWTDT=84376460, HHYJI=67055228, USRTO=34829299, MIVXX=50356189, UYBDN=83032320, WEHXH=61731898, QMTCA=73658759, TYMHL=20212910, CBZMV=39066496, YXSUH=42760412, ECAYY=52448143}, {CEFJR=81446744, DWTDT=84376460, HHYJI=67055228, USRTO=34829299, MIVXX=61731898, UYBDN=83032320, WEHXH=50356189, QMTCA=73658759, TYMHL=20212910, CBZMV=39066496, YXSUH=42760412, ECAYY=52448143}, {CEFJR=81446744, DWTDT=84376460, HHYJI=83032320, USRTO=34829299, MIVXX=50356189, UYBDN=74942775, WEHXH=61731898, QMTCA=73658759, TYMHL=20212910, CBZMV=39066496, YXSUH=42760412, ECAYY=52448143}, {CEFJR=81446744, DWTDT=84376460, HHYJI=83032320, USRTO=34829299, MIVXX=61731898, UYBDN=74942775, WEHXH=50356189, QMTCA=73658759, TYMHL=20212910, CBZMV=39066496, YXSUH=42760412, ECAYY=52448143}]
+Brute Force Upfront Work Results:
+[{CEFJR=81446744, DWTDT=84376460, HHYJI=67055228, USRTO=34829299, MIVXX=50356189, UYBDN=83032320, WEHXH=61731898, QMTCA=73658759, TYMHL=20212910, CBZMV=39066496, YXSUH=42760412, ECAYY=52448143}, {CEFJR=81446744, DWTDT=84376460, HHYJI=67055228, USRTO=34829299, MIVXX=61731898, UYBDN=83032320, WEHXH=50356189, QMTCA=73658759, TYMHL=20212910, CBZMV=39066496, YXSUH=42760412, ECAYY=52448143}, {CEFJR=81446744, DWTDT=84376460, HHYJI=83032320, USRTO=34829299, MIVXX=50356189, UYBDN=74942775, WEHXH=61731898, QMTCA=73658759, TYMHL=20212910, CBZMV=39066496, YXSUH=42760412, ECAYY=52448143}, {CEFJR=81446744, DWTDT=84376460, HHYJI=83032320, USRTO=34829299, MIVXX=61731898, UYBDN=74942775, WEHXH=50356189, QMTCA=73658759, TYMHL=20212910, CBZMV=39066496, YXSUH=42760412, ECAYY=52448143}]
+Hungarian Algorithm Results:
+[{UYBDN=83032320, CEFJR=04391473, WEHXH=61731898, DWTDT=84376460, QMTCA=73658759, HHYJI=83032320, USRTO=34829299, TYMHL=20212910, CBZMV=42760412, YXSUH=42760412, ECAYY=50356189, MIVXX=81446744}]
+
+
+2 discrepancies

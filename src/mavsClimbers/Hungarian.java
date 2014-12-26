@@ -2,6 +2,7 @@ package mavsClimbers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class Hungarian implements MavClimberFinder {
@@ -33,28 +34,40 @@ public class Hungarian implements MavClimberFinder {
 
 	@Override
 	public void readInNoms() {
-		teacherList = new Teacher[2];
-		Teacher schneider = new Teacher("Schneider", "Physics");
-		Student a = new Student("A", schneider, 1);
-		Student b = new Student("B", schneider, 2);
-		Student c = new Student("C", schneider, 3);
-		Student[] sMavNoms = {a, b, c};
-		schneider.addNoms(sMavNoms);
-		Teacher yu = new Teacher("Yu", "Algebra");
-		Student d = new Student("A", yu, 1);
-		Student e = new Student("C", yu, 2);
-		Student f = new Student("B", yu, 3);
-		Student[] yMavNoms = {d, e, f};
-		yu.addNoms(yMavNoms);
-		Teacher rodd = new Teacher("Rodd", "English");
-		Student g = new Student("C", rodd, 1);
-		Student h = new Student("A", rodd, 2);
-		Student i = new Student("B", rodd, 3);
-		Student[] rMavNoms = {g, h, i};
-		rodd.addNoms(rMavNoms);
-		teacherList[0] = schneider;
-		teacherList[1] = yu;
-		//teacherList[2] = rodd;
+		teacherList = new Teacher[6];
+		Teacher one = new Teacher("1", "One");
+		Teacher two = new Teacher("2", "Two");
+		Teacher three = new Teacher("3", "Three");
+		Teacher four = new Teacher("4", "Four");
+		Teacher five = new Teacher("5", "Five");
+		Teacher six = new Teacher("6", "Six");
+		Student a = new Student("A");
+		Student b = new Student("B");
+		Student c = new Student("C");
+		Student d = new Student("D");
+		Student e = new Student("E");
+		Student f = new Student("F");
+		Student g = new Student("G");
+		Student h = new Student("H");
+		Student i = new Student("I");
+		Student[] oneMavNoms = {f, b, h};
+		Student[] twoMavNoms = {a, b, g};
+		Student[] threeMavNoms = {e, c, f};
+		Student[] fourMavNoms = {c, f, b};
+		Student[] fiveMavNoms = {d, c, i};
+		Student[] sixMavNoms = {e, d, h};
+		one.addNoms(oneMavNoms);
+		two.addNoms(twoMavNoms);
+		three.addNoms(threeMavNoms);
+		four.addNoms(fourMavNoms);
+		five.addNoms(fiveMavNoms);
+		six.addNoms(sixMavNoms);
+		teacherList[0] = one;
+		teacherList[1] = two;
+		teacherList[2] = three;
+		teacherList[3] = four;
+		teacherList[4] = five;
+		teacherList[5] = six;
 		numNoms = 3;
 	}
 	
@@ -82,15 +95,17 @@ public class Hungarian implements MavClimberFinder {
 		//matrix = setMatrix;
 		
 		//printMatrix();
-
+		
 		while (true) {
 		
 			subtractMinFrom("row");
 			subtractMinFrom("column");
 		
 			//printMatrix();
-		
+			
 			findMaximumMatching();
+			
+			//printFlowNetwork();
 		
 			if (isPerfectMatching()) {
 				populateFinalAssignments();
@@ -120,6 +135,7 @@ public class Hungarian implements MavClimberFinder {
 
 	private void createStudentList() {
 		studentList = new ArrayList<Student>();
+		numStudents = 0;
 		for (int i = 0; i < numTeachers; i++) {
 			Teacher teacher = teacherList[i];
 			for (int j = 0; j < numNoms; j++) {
@@ -130,6 +146,12 @@ public class Hungarian implements MavClimberFinder {
 				}
 			}
 		}
+		studentList.sort(new Comparator<Student>() {
+			@Override
+			public int compare(Student first, Student second) {
+				return first.toString().compareTo(second.toString());
+			}
+		});
 	}
 	
 	private void populateMatrix() {
@@ -227,10 +249,13 @@ public class Hungarian implements MavClimberFinder {
 	}
 	
 	private void findMaximumMatching() {
+		clearFlowNetwork();
 		clearAdjacencyMatrix();
 		populateAdjacencyMatrix();
-				
+		
 		residualGraph = adjacencyMatrix.clone();
+		
+		//printResidualGraph();
 		
 		status = "Beginning new path";
 		
@@ -449,6 +474,12 @@ public class Hungarian implements MavClimberFinder {
 	private void clearAdjacencyMatrix() {
 		for (int i = 0; i < 2 * numStudents + 2; i++) {
 			Arrays.fill(adjacencyMatrix[i], 0);
+		}
+	}
+
+	private void clearFlowNetwork() {
+		for (int i = 0; i < 2 * numStudents + 2; i++) {
+			Arrays.fill(flowNetwork[i], 0);
 		}
 	}
 	
