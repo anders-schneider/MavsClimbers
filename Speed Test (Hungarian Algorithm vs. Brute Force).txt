@@ -1,0 +1,102 @@
+Running trials
+
+
+BRUTE FORCE UPFRONT WORK
+0.049 seconds for 5000 trials with 2 teachers and 4 students
+
+HUNGARIAN ALGORITHM
+0.147 seconds for 5000 trials with 2 teachers and 4 students
+
+
+BRUTE FORCE UPFRONT WORK
+0.115 seconds for 5000 trials with 3 teachers and 6 students
+
+HUNGARIAN ALGORITHM
+0.246 seconds for 5000 trials with 3 teachers and 6 students
+
+
+BRUTE FORCE UPFRONT WORK
+0.153 seconds for 5000 trials with 4 teachers and 8 students
+
+HUNGARIAN ALGORITHM
+0.286 seconds for 5000 trials with 4 teachers and 8 students
+
+
+BRUTE FORCE UPFRONT WORK
+0.329 seconds for 5000 trials with 5 teachers and 10 students
+
+HUNGARIAN ALGORITHM
+0.163 seconds for 5000 trials with 5 teachers and 10 students
+
+
+BRUTE FORCE UPFRONT WORK
+0.54 seconds for 5000 trials with 6 teachers and 12 students
+
+HUNGARIAN ALGORITHM
+0.209 seconds for 5000 trials with 6 teachers and 12 students
+
+
+BRUTE FORCE UPFRONT WORK
+1.2 seconds for 5000 trials with 7 teachers and 14 students
+
+HUNGARIAN ALGORITHM
+0.235 seconds for 5000 trials with 7 teachers and 14 students
+
+
+BRUTE FORCE UPFRONT WORK
+1.917 seconds for 5000 trials with 8 teachers and 16 students
+
+HUNGARIAN ALGORITHM
+0.242 seconds for 5000 trials with 8 teachers and 16 students
+
+
+BRUTE FORCE UPFRONT WORK
+3.347 seconds for 5000 trials with 9 teachers and 18 students
+
+HUNGARIAN ALGORITHM
+0.321 seconds for 5000 trials with 9 teachers and 18 students
+
+
+BRUTE FORCE UPFRONT WORK
+8.257 seconds for 5000 trials with 10 teachers and 20 students
+
+HUNGARIAN ALGORITHM
+0.409 seconds for 5000 trials with 10 teachers and 20 students
+
+
+BRUTE FORCE UPFRONT WORK
+19.063 seconds for 5000 trials with 11 teachers and 22 students
+
+HUNGARIAN ALGORITHM
+0.509 seconds for 5000 trials with 11 teachers and 22 students
+
+
+BRUTE FORCE UPFRONT WORK
+52.344 seconds for 5000 trials with 12 teachers and 24 students
+
+HUNGARIAN ALGORITHM
+0.87 seconds for 5000 trials with 12 teachers and 24 students
+
+
+BRUTE FORCE UPFRONT WORK
+120.571 seconds for 5000 trials with 13 teachers and 26 students
+
+HUNGARIAN ALGORITHM
+0.803 seconds for 5000 trials with 13 teachers and 26 students
+
+
+BRUTE FORCE UPFRONT WORK
+296.771 seconds for 5000 trials with 14 teachers and 28 students
+
+HUNGARIAN ALGORITHM
+1.09 seconds for 5000 trials with 14 teachers and 28 students
+
+
+BRUTE FORCE UPFRONT WORK
+656.344 seconds for 5000 trials with 15 teachers and 30 students
+
+HUNGARIAN ALGORITHM
+1.149 seconds for 5000 trials with 15 teachers and 30 students
+
+Checking for discrepancies
+0 discrepancies

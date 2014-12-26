@@ -1,0 +1,41 @@
+Running trials
+
+
+HUNGARIAN ALGORITHM
+0.289 seconds for 500 trials with 10 teachers and 20 students
+
+
+HUNGARIAN ALGORITHM
+0.539 seconds for 500 trials with 20 teachers and 40 students
+
+
+HUNGARIAN ALGORITHM
+0.951 seconds for 500 trials with 30 teachers and 60 students
+
+
+HUNGARIAN ALGORITHM
+2.28 seconds for 500 trials with 40 teachers and 80 students
+
+
+HUNGARIAN ALGORITHM
+4.962 seconds for 500 trials with 50 teachers and 100 students
+
+
+HUNGARIAN ALGORITHM
+8.842 seconds for 500 trials with 60 teachers and 120 students
+
+
+HUNGARIAN ALGORITHM
+13.6 seconds for 500 trials with 70 teachers and 140 students
+
+
+HUNGARIAN ALGORITHM
+21.317 seconds for 500 trials with 80 teachers and 160 students
+
+
+HUNGARIAN ALGORITHM
+32.109 seconds for 500 trials with 90 teachers and 180 students
+
+
+HUNGARIAN ALGORITHM
+46.708 seconds for 500 trials with 100 teachers and 200 students

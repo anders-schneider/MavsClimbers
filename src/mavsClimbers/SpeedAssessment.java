@@ -21,13 +21,14 @@ import java.util.Random;
 
 public class SpeedAssessment {
 
-	private int numTrials = 1;
+	private int numTrials = 100;
 	private int numNoms = 3;
 	//private int[][] inputSizes = {{3, 3}};
 	//private int[][] inputSizes = {{15, 30}};
 	//private int[][] inputSizes = {{15, 30}, {14, 28}, {13, 26}, {12, 24}, {11, 22}, {10, 20}, {9, 18}, {8, 16}, {7, 14}, {6, 12}, {5, 10}, {4, 8}, {3, 6}, {2, 4}};
-	private int[][] inputSizes = {{2, 4}, {3, 6}, {4, 8}, {5, 10}, {6, 12}, {7, 14}, {8, 16}, {9, 18}, {10, 20}, {11, 22}, {12, 24}, {13, 26}, {14, 28}, {15, 30}};
+	//private int[][] inputSizes = {{2, 4}, {3, 6}, {4, 8}, {5, 10}, {6, 12}, {7, 14}, {8, 16}, {9, 18}, {10, 20}, {11, 22}, {12, 24}, {13, 26}, {14, 28}, {15, 30}};
 	//private int[][] inputSizes = {{10, 20}, {20, 40}, {30, 60}, {40, 80}, {50, 100}, {60, 120}, {70, 140}, {80, 160}, {90, 180}, {100, 200}};
+	private int[][] inputSizes = {{10, 20}, {20, 40}, {30, 60}, {40, 80}, {50, 100}, {60, 120}, {70, 140}, {80, 160}, {90, 180}, {100, 200}, {110, 220}, {120, 240}, {130, 260}, {140, 280}, {150, 300}, {160, 320}, {170, 340}, {180, 360}, {190, 380}, {200, 400}};
 	private int numOfDifferentSizedInputs = inputSizes.length;
 	private int maxNumTeachers = inputSizes[numOfDifferentSizedInputs - 1][0];
 	private Teacher[][][] samplesList = new Teacher [numOfDifferentSizedInputs][numTrials][maxNumTeachers];
@@ -39,7 +40,7 @@ public class SpeedAssessment {
 		SpeedAssessment speedTester = new SpeedAssessment();
 		speedTester.generateRandomSamples();
 		speedTester.runTrials();
-		speedTester.checkForDiscrepancies();
+		//speedTester.checkForDiscrepancies();
 	}
 	
 	private void generateRandomSamples() {
@@ -129,32 +130,33 @@ public class SpeedAssessment {
 		
 		System.out.println("Running trials");
 		
-		BruteForce bruteForce = new BruteForce();
-		BruteForceModified bruteForceModified = new BruteForceModified();
+		//BruteForce bruteForce = new BruteForce();
+		//BruteForceModified bruteForceModified = new BruteForceModified();
 		//BruteForceModified2 bruteForceModified2 = new BruteForceModified2();
-		BruteForceUpfrontWork bruteForceUpfrontWork = new BruteForceUpfrontWork();
+		//BruteForceUpfrontWork bruteForceUpfrontWork = new BruteForceUpfrontWork();
 		Hungarian hungarian = new Hungarian();
 		
 		for (int k = 0; k < numOfDifferentSizedInputs; k++) {
-			System.out.println("\n\nBRUTE FORCE");
-			long startTime = System.currentTimeMillis();
-			for (int i = 0; i < numTrials; i++) {
-				bruteForce.setTeacherList(samplesList[k][i]);
-				bruteForce.runTrials();
-				//bruteForce.reportResults();
-			}
-			long endTime = System.currentTimeMillis();
-			System.out.println("" + ((endTime - startTime) / 1000.) + " seconds for " + numTrials + " trials with " + inputSizes[k][0] + " teachers and " + inputSizes[k][1] + " students");
+
+//			System.out.println("\n\nBRUTE FORCE");
+//			long startTime = System.currentTimeMillis();
+//			for (int i = 0; i < numTrials; i++) {
+//				bruteForce.setTeacherList(samplesList[k][i]);
+//				bruteForce.runTrials();
+//				//bruteForce.reportResults();
+//			}
+//			long endTime = System.currentTimeMillis();
+//			System.out.println("" + ((endTime - startTime) / 1000.) + " seconds for " + numTrials + " trials with " + inputSizes[k][0] + " teachers and " + inputSizes[k][1] + " students");
 			
-			System.out.println("\nBRUTE FORCE MODIFIED");
-			startTime = System.currentTimeMillis();
-			for (int i = 0; i < numTrials; i++) {
-				bruteForceModified.setTeacherList(samplesList[k][i]);
-				bruteForceModified.runTrials();
-				//bruteForceModified.reportResults();
-			}
-			endTime = System.currentTimeMillis();
-			System.out.println("" + ((endTime - startTime) / 1000.) + " seconds for " + numTrials + " trials with " + inputSizes[k][0] + " teachers and " + inputSizes[k][1] + " students");
+//			System.out.println("\nBRUTE FORCE MODIFIED");
+//			startTime = System.currentTimeMillis();
+//			for (int i = 0; i < numTrials; i++) {
+//				bruteForceModified.setTeacherList(samplesList[k][i]);
+//				bruteForceModified.runTrials();
+//				//bruteForceModified.reportResults();
+//			}
+//			endTime = System.currentTimeMillis();
+//			System.out.println("" + ((endTime - startTime) / 1000.) + " seconds for " + numTrials + " trials with " + inputSizes[k][0] + " teachers and " + inputSizes[k][1] + " students");
 			
 //			System.out.println("\nBRUTE FORCE MODIFIED 2");
 //			startTime = System.currentTimeMillis();
@@ -166,24 +168,24 @@ public class SpeedAssessment {
 //			endTime = System.currentTimeMillis();
 //			System.out.println("" + ((endTime - startTime) / 1000.) + " seconds for " + numTrials + " trials with " + inputSizes[k][0] + " teachers and " + inputSizes[k][1] + " students\n\n");
 			
-			System.out.println("\nBRUTE FORCE UPFRONT WORK");
-			startTime = System.currentTimeMillis();
-			for (int i = 0; i < numTrials; i++) {
-				bruteForceUpfrontWork.setTeacherList(samplesList[k][i]);
-				bruteForceUpfrontWork.runTrials();
-				//bruteForceModified.reportResults();
-			}
-			endTime = System.currentTimeMillis();
-			System.out.println("" + ((endTime - startTime) / 1000.) + " seconds for " + numTrials + " trials with " + inputSizes[k][0] + " teachers and " + inputSizes[k][1] + " students");
+//			System.out.println("\n\nBRUTE FORCE UPFRONT WORK");
+//			long startTime = System.currentTimeMillis();
+//			for (int i = 0; i < numTrials; i++) {
+//				bruteForceUpfrontWork.setTeacherList(samplesList[k][i]);
+//				bruteForceUpfrontWork.runTrials();
+//				//bruteForceModified.reportResults();
+//			}
+//			long endTime = System.currentTimeMillis();
+//			System.out.println("" + ((endTime - startTime) / 1000.) + " seconds for " + numTrials + " trials with " + inputSizes[k][0] + " teachers and " + inputSizes[k][1] + " students");
 			
-			System.out.println("\nHUNGARIAN ALGORITHM");
-			startTime = System.currentTimeMillis();
+			System.out.println("\n\nHUNGARIAN ALGORITHM");
+			long startTime = System.currentTimeMillis();
 			for (int i = 0; i < numTrials; i++) {
 				hungarian.setTeacherList(samplesList[k][i]);
 				hungarian.runTrials();
 				//hungarian.reportResults();
 			}
-			endTime = System.currentTimeMillis();
+			long endTime = System.currentTimeMillis();
 			System.out.println("" + ((endTime - startTime) / 1000.) + " seconds for " + numTrials + " trials with " + inputSizes[k][0] + " teachers and " + inputSizes[k][1] + " students");
 			
 		}
@@ -193,8 +195,8 @@ public class SpeedAssessment {
 		
 		System.out.println("\nChecking for discrepancies");
 		
-		BruteForce bruteForce = new BruteForce();
-		BruteForceModified bruteForceModified = new BruteForceModified();
+		//BruteForce bruteForce = new BruteForce();
+		//BruteForceModified bruteForceModified = new BruteForceModified();
 		//BruteForceModified2 bruteForceModified2 = new BruteForceModified2();
 		BruteForceUpfrontWork bruteForceUpfrontWork = new BruteForceUpfrontWork();
 		Hungarian hungarian = new Hungarian();
@@ -207,23 +209,23 @@ public class SpeedAssessment {
 				
 				//System.out.println("\n\n" + sampleToRun.length + " teachers");
 				
-				bruteForce.setTeacherList(sampleToRun);
-				bruteForceModified.setTeacherList(sampleToRun);
+				//bruteForce.setTeacherList(sampleToRun);
+				//bruteForceModified.setTeacherList(sampleToRun);
 				//bruteForceModified2.setTeacherList(sampleToRun);
 				bruteForceUpfrontWork.setTeacherList(sampleToRun);
 				hungarian.setTeacherList(sampleToRun);
 				
-				long startTime = System.currentTimeMillis();
-				bruteForce.runTrials();
-				ArrayList<HashMap> bruteForceResults = bruteForce.returnResults();
-				long stopTime = System.currentTimeMillis();
-				//System.out.println("Brute Force took " + (stopTime - startTime) + " msec");
+//				long startTime = System.currentTimeMillis();
+//				bruteForce.runTrials();
+//				ArrayList<HashMap> bruteForceResults = bruteForce.returnResults();
+//				long stopTime = System.currentTimeMillis();
+//				//System.out.println("Brute Force took " + (stopTime - startTime) + " msec");
 				
-				startTime = System.currentTimeMillis();
-				bruteForceModified.runTrials();
-				ArrayList<HashMap> bruteForceModifiedResults = bruteForceModified.returnResults();
-				stopTime = System.currentTimeMillis();
-				//System.out.println("Brute Force Modified took " + (stopTime - startTime) + " msec");
+//				startTime = System.currentTimeMillis();
+//				bruteForceModified.runTrials();
+//				ArrayList<HashMap> bruteForceModifiedResults = bruteForceModified.returnResults();
+//				stopTime = System.currentTimeMillis();
+//				//System.out.println("Brute Force Modified took " + (stopTime - startTime) + " msec");
 				
 //				startTime = System.currentTimeMillis();
 //				bruteForceModified2.runTrials();
@@ -231,10 +233,10 @@ public class SpeedAssessment {
 //				stopTime = System.currentTimeMillis();
 //				//System.out.println("Brute Force Modified 2 took " + (stopTime - startTime) + " msec");
 				
-				startTime = System.currentTimeMillis();
+				long startTime = System.currentTimeMillis();
 				bruteForceUpfrontWork.runTrials();
 				ArrayList<HashMap> bruteForceUpfrontWorkResults = bruteForceUpfrontWork.returnResults();
-				stopTime = System.currentTimeMillis();
+				long stopTime = System.currentTimeMillis();
 				//System.out.println("Brute Force Upfront Work took " + (stopTime - startTime) + " msec");
 
 				startTime = System.currentTimeMillis();
@@ -243,7 +245,8 @@ public class SpeedAssessment {
 				stopTime = System.currentTimeMillis();
 				//System.out.println("Hungarian Algorithm took " + (stopTime - startTime) + " msec");				
 				
-				if (!(bruteForceResults.equals(bruteForceModifiedResults)) || !(bruteForceResults.equals(bruteForceUpfrontWorkResults)) || !(bruteForceResults.contains(hungarianResults.get(0)))) {
+				//if (!(bruteForceResults.equals(bruteForceModifiedResults)) || !(bruteForceResults.equals(bruteForceUpfrontWorkResults)) || !(bruteForceResults.contains(hungarianResults.get(0)))) {
+				if (!bruteForceUpfrontWorkResults.contains(hungarianResults.get(0))) {	
 					discrepancyCounter++;
 					System.out.println("\nDISCREPANCY\n");
 					for (int j = 0; j < sampleToRun.length; j++) {
@@ -254,10 +257,10 @@ public class SpeedAssessment {
 						}
 						System.out.println("");
 					}
-					System.out.println("Brute Force Results:");
-					System.out.println(bruteForceResults);
-					System.out.println("Brute Force Modified Results:");
-					System.out.println(bruteForceModifiedResults);
+					//System.out.println("Brute Force Results:");
+					//System.out.println(bruteForceResults);
+					//System.out.println("Brute Force Modified Results:");
+					//System.out.println(bruteForceModifiedResults);
 //					System.out.println("Brute Force Modified 2 Results:");
 //					System.out.println(bruteForceModified2Results);
 					System.out.println("Brute Force Upfront Work Results:");
