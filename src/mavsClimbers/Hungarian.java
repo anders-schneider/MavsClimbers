@@ -30,9 +30,10 @@ public class Hungarian implements MavClimberFinder {
 		hungarian.readInNoms();
 		hungarian.runTrials();
 		hungarian.reportResults();
-    }
+	}
 
 	@Override
+	
 	public void readInNoms() {
 		teacherList = new Teacher[6];
 		Teacher one = new Teacher("1", "One");
