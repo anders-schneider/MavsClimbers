@@ -3,6 +3,7 @@ package mavsClimbers;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -12,6 +13,8 @@ public class MavsClimbersGUI {
 	private JPanel buttonPanel;
 	private JButton loadInValues;
 	private JButton enterValues;
+	private int numAwards;
+	private int numNoms;
 	
 	public static void main(String[] args) {
 		new MavsClimbersGUI().run();
@@ -89,14 +92,28 @@ public class MavsClimbersGUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (inputValuesAreAppropriate()) {
-					launchManualSecondWindow();
+					manualFirstWindow.dispose();
+					startNominationEntry();
 				} else {
-					errorLabel.setText("Please enter integer values");
+					errorLabel.setText("Please enter positive integer values");
 				}
 			}
 			
 			private boolean inputValuesAreAppropriate() {
-				return false;
+				String numAwardsString = numAwardsField.getText();
+				String numNomsString = numNomsField.getText();
+				
+				try {
+					numAwards = Integer.parseInt(numAwardsString);
+					numNoms = Integer.parseInt(numNomsString);
+				} catch (NumberFormatException e) {
+					return false;
+				}
+				
+				if ((numAwards < 1) || (numNoms < 1)) {
+					return false;
+				}
+				return true;
 			}
 		}
 		
@@ -105,8 +122,89 @@ public class MavsClimbersGUI {
 		manualFirstWindow.setVisible(true);
 	}
 	
-	private void launchManualSecondWindow() {
+	private void startNominationEntry() {
 		
+		newNominationEntry(1);
+	
+	}
+	
+	private void newNominationEntry(int awardNumber) {
+		JFrame nomEntryWindow = new JFrame("Award #" + awardNumber);
+		nomEntryWindow.setSize(600, 300);
+		nomEntryWindow.setLayout(new BorderLayout());
+		
+		JPanel specsPanel = new JPanel();
+		JPanel nomsPanel = new JPanel();
+		
+		JLabel classNameLabel = new JLabel("Class Name:");
+		JLabel teacherNameLabel = new JLabel("Teacher Name:");
+		JLabel awardNameLabel = new JLabel("Award Name (optional):");
+		
+		JLabel errorReport = new JLabel("");
+		
+		JTextField classNameField = new JTextField("Physics");
+		JTextField teacherNameField = new JTextField("Schneider");
+		JTextField awardNameField = new JTextField("Maverick");
+		
+		specsPanel.setLayout(new GridLayout(4, 2, 50, 70));
+		specsPanel.add(classNameLabel);
+		specsPanel.add(classNameField);
+		specsPanel.add(teacherNameLabel);
+		specsPanel.add(teacherNameField);
+		specsPanel.add(awardNameLabel);
+		specsPanel.add(awardNameField);
+		specsPanel.add(new JPanel());
+		specsPanel.add(errorReport);
+		
+		JTextField [] nomFieldList = new JTextField [numNoms];
+		JButton backButton = new JButton("Back");
+		JButton nextButton = new JButton("Next");
+		
+		nomsPanel.setLayout(new GridLayout(numNoms + 1, 2, 20, 20));
+		
+		for (int j = 0; j < numNoms; j++) {
+			nomsPanel.add(new JLabel("Nomination #" + (j + 1)));
+			JTextField nomsField = new JTextField("Student X");
+			nomFieldList[j] = nomsField;
+			nomsPanel.add(nomsField);
+		}
+		
+		nomsPanel.add(backButton);
+		nomsPanel.add(nextButton);
+		
+		backButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// Go back, populate fields with what they had when last saved
+				// When they click next again, remove the old teacher/class
+				// from the list and add the new one with the new details
+			}
+		});
+		
+		nextButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (inputValuesAreAppropriate() /* && input values are not already in list */) {
+					nomEntryWindow.dispose();
+					newNominationEntry(awardNumber + 1);
+				}
+			}
+			
+			private boolean inputValuesAreAppropriate() {
+				String className = classNameField.getText();
+				String teacherName = teacherNameField.getText();
+			
+				if ("".equals(className.trim()) || "".equals(teacherName.trim())) {
+					return false;
+				}
+				return true;
+			}
+		});
+		
+		nomEntryWindow.add(specsPanel, BorderLayout.WEST);
+		nomEntryWindow.add(nomsPanel, BorderLayout.EAST);
+		
+		nomEntryWindow.setVisible(true);
 	}
 	
 	private void loadInValuesFromExcel() {
