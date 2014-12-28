@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 import javax.swing.*;
 
@@ -15,18 +17,16 @@ public class MavsClimbersGUI {
 	private JButton enterValues;
 	private int numAwards;
 	private int numNoms;
+	private Teacher[] teacherList;
+	private ArrayList<HashMap> finalAssignments;
 	
 	public static void main(String[] args) {
-		new MavsClimbersGUI().run();
-	}
-
-	private void run() {
-		processor = new Hungarian();
-		
-		launchStartWindow();
+		new MavsClimbersGUI().launchStartWindow();
 	}
 	
 	private void launchStartWindow() {
+		processor = new Hungarian();
+		
 		startWindow = new JFrame("Start");
 		startWindow.setSize(450, 150);
 		startWindow.setLayout(new BorderLayout());
@@ -92,6 +92,7 @@ public class MavsClimbersGUI {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (inputValuesAreAppropriate()) {
+					teacherList = new Teacher [numAwards];
 					manualFirstWindow.dispose();
 					startNominationEntry();
 				} else {
@@ -146,7 +147,7 @@ public class MavsClimbersGUI {
 		JTextField teacherNameField = new JTextField("Schneider");
 		JTextField awardNameField = new JTextField("Maverick");
 		
-		specsPanel.setLayout(new GridLayout(4, 2, 50, 70));
+		specsPanel.setLayout(new GridLayout(4, 2, 40, 40));
 		specsPanel.add(classNameLabel);
 		specsPanel.add(classNameField);
 		specsPanel.add(teacherNameLabel);
@@ -184,20 +185,48 @@ public class MavsClimbersGUI {
 		nextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (inputValuesAreAppropriate() /* && input values are not already in list */) {
+				if (inputValuesAreAppropriate()) {
 					nomEntryWindow.dispose();
-					newNominationEntry(awardNumber + 1);
+					saveAwardData();
+					if (awardNumber < numAwards) {
+						newNominationEntry(awardNumber + 1);
+					} else {
+						determineOptimalDistribution();
+					}
+				} else {
+					errorReport.setText("You have not filled in all the required fields.");
 				}
 			}
 			
 			private boolean inputValuesAreAppropriate() {
-				String className = classNameField.getText();
-				String teacherName = teacherNameField.getText();
+				String className = classNameField.getText().trim();
+				String teacherName = teacherNameField.getText().trim();
 			
-				if ("".equals(className.trim()) || "".equals(teacherName.trim())) {
+				if ("".equals(className) || "".equals(teacherName)) {
 					return false;
 				}
+				
 				return true;
+			}
+			
+			private void saveAwardData() {
+				String className = classNameField.getText().trim();
+				String awardName = awardNameField.getText().trim();
+				String teacherName = teacherNameField.getText().trim();
+				
+				Teacher newTeacher = new Teacher(teacherName, className);
+				
+				Student[] studentList = new Student[numNoms];
+				
+				for (int i = 0; i < numNoms; i++) {
+					String studentName = nomFieldList[i].getText();
+					Student newStudent = new Student(studentName);
+					studentList[i] = newStudent;
+				}
+				
+				newTeacher.addNoms(studentList);
+				
+				teacherList[awardNumber - 1] = newTeacher;
 			}
 		});
 		
@@ -205,6 +234,34 @@ public class MavsClimbersGUI {
 		nomEntryWindow.add(nomsPanel, BorderLayout.EAST);
 		
 		nomEntryWindow.setVisible(true);
+	}
+	
+	private void determineOptimalDistribution() {
+		processor.setTeacherList(teacherList);
+		processor.runTrials();
+		finalAssignments = processor.returnResults();
+		displayResults();
+	}
+	
+	private void displayResults() {
+		JFrame resultsWindow = new JFrame("Optimal Results");
+		resultsWindow.setSize(400, 400);
+		resultsWindow.setDefaultCloseOperation(resultsWindow.EXIT_ON_CLOSE);
+		
+		resultsWindow.setLayout(new GridLayout(numAwards, 2, 20, 20));
+		
+		HashMap results = finalAssignments.get(0);
+		
+		for(int i = 0; i < numAwards; i++) {
+			Teacher teacher = teacherList[i];
+			JLabel teacherLabel = new JLabel(teacher.toString() + " (" + teacher.getCourseName() + "):");
+			resultsWindow.add(teacherLabel);
+			Student student = (Student) results.get(teacher);
+			JLabel studentLabel = new JLabel(student.toString());
+			resultsWindow.add(studentLabel);
+		}
+		
+		resultsWindow.setVisible(true);
 	}
 	
 	private void loadInValuesFromExcel() {
