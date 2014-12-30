@@ -3,6 +3,10 @@ package mavsClimbers;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
@@ -37,7 +41,7 @@ public class MavsClimbersGUI {
 		
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
-		loadInValues = new JButton("Load in nominations from Excel");
+		loadInValues = new JButton("Load in nominations from text file");
 		enterValues = new JButton("Enter nominations manually");
 		buttonPanel.add(loadInValues);
 		buttonPanel.add(enterValues);
@@ -53,7 +57,7 @@ public class MavsClimbersGUI {
 		loadInValues.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				loadInValuesFromExcel();
+				loadInValuesFromTextFile();
 			}
 		});
 		
@@ -94,7 +98,7 @@ public class MavsClimbersGUI {
 				if (inputValuesAreAppropriate()) {
 					teacherList = new Teacher [numAwards];
 					manualFirstWindow.dispose();
-					startNominationEntry();
+					newNominationEntry(1);
 				} else {
 					errorLabel.setText("Please enter positive integer values");
 				}
@@ -121,12 +125,6 @@ public class MavsClimbersGUI {
 		nextButton.addActionListener(new NextButtonListener());
 		
 		manualFirstWindow.setVisible(true);
-	}
-	
-	private void startNominationEntry() {
-		
-		newNominationEntry(1);
-	
 	}
 	
 	private void newNominationEntry(int awardNumber) {
@@ -264,8 +262,79 @@ public class MavsClimbersGUI {
 		resultsWindow.setVisible(true);
 	}
 	
-	private void loadInValuesFromExcel() {
+	private void loadInValuesFromTextFile() {
+		startWindow.dispose();
+		launchFormatWarningWindow();
+	}
+	
+	private void launchFormatWarningWindow() {
+		JFrame formatWarningWindow = new JFrame("Warning!");
+		formatWarningWindow.setSize(400, 200);
 		
+		formatWarningWindow.setLayout(new BorderLayout());
+		
+		JButton continueButton = new JButton("Continue");
+		
+		formatWarningWindow.add(new JLabel("Text files must have the following format:"), BorderLayout.NORTH);
+		formatWarningWindow.add(new JLabel("Teacher 1 | Class Name\n\nNomination #1\nNomination #2\nNomination #3\n\nTeacher 2 | Class Name\nNomination #1\n..."), BorderLayout.CENTER);
+		formatWarningWindow.add(continueButton, BorderLayout.SOUTH);
+		
+		continueButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				formatWarningWindow.dispose();
+				promptUserForTextFile();
+			}
+		});
+		
+		formatWarningWindow.setVisible(true);
+	}
+	
+	private void promptUserForTextFile() {
+		ArrayList<String> fileLines = null;
+		
+		try {
+			fileLines = loadTextFile();
+			if (fileLines == null) {
+				throw new IOException("file was null");
+			}
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Oops! The following error ocurred: " + e.getMessage());
+			promptUserForTextFile();
+		}
+		
+		parseFileContents(fileLines);
+	}
+	
+	private void parseFileContents(ArrayList<String> fileLines) {
+		for (int i = 0; i < fileLines.size(); i++) {
+			
+		}
+	}
+	
+	private ArrayList<String> loadTextFile() throws IOException {
+		ArrayList<String> lines = null;
+        BufferedReader reader;
+        String fileName;
+
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogTitle("Load which file?");
+        int result = chooser.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File file = chooser.getSelectedFile();
+            if (file != null) {
+                fileName = file.getCanonicalPath();
+                reader = new BufferedReader(new FileReader(fileName));
+                lines = new ArrayList<String>();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lines.add(line);
+                }
+                reader.close();
+                return lines;
+            }
+        }
+        return lines;
 	}
 	
 }
