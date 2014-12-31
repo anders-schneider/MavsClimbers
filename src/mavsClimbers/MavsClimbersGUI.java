@@ -238,6 +238,7 @@ public class MavsClimbersGUI {
 		processor.setTeacherList(teacherList);
 		processor.runTrials();
 		finalAssignments = processor.returnResults();
+		System.out.println(finalAssignments);
 		displayResults();
 	}
 	
@@ -276,7 +277,7 @@ public class MavsClimbersGUI {
 		JButton continueButton = new JButton("Continue");
 		
 		formatWarningWindow.add(new JLabel("Text files must have the following format:"), BorderLayout.NORTH);
-		formatWarningWindow.add(new JLabel("Teacher 1 | Class Name\n\nNomination #1\nNomination #2\nNomination #3\n\nTeacher 2 | Class Name\nNomination #1\n..."), BorderLayout.CENTER);
+		formatWarningWindow.add(new JLabel("Teacher 1 - Class Name\n\nNomination #1\nNomination #2\nNomination #3\n\nTeacher 2 - Class Name\nNomination #1\n..."), BorderLayout.CENTER);
 		formatWarningWindow.add(continueButton, BorderLayout.SOUTH);
 		
 		continueButton.addActionListener(new ActionListener() {
@@ -298,18 +299,60 @@ public class MavsClimbersGUI {
 			if (fileLines == null) {
 				throw new IOException("file was null");
 			}
+			parseFileContents(fileLines);
+			determineOptimalDistribution();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Oops! The following error ocurred: " + e.getMessage());
-			promptUserForTextFile();
+			//promptUserForTextFile();
+		} catch (IllegalArgumentException e) {
+			JOptionPane.showMessageDialog(null, "Oops! The following error ocurred: " + e.getMessage());
 		}
-		
-		parseFileContents(fileLines);
 	}
 	
 	private void parseFileContents(ArrayList<String> fileLines) {
+
+		findNumNoms(fileLines);
+		int teacherIndex = 0;
+		ArrayList<Teacher> teacherHolder = new ArrayList<Teacher>();
+		
 		for (int i = 0; i < fileLines.size(); i++) {
+			String teacherClassLine = fileLines.get(i);
+			i++;
 			
+			String[] contents = teacherClassLine.split(" - ");
+			Teacher newTeacher = new Teacher(contents[0].trim(), contents[1].trim());
+			
+			int limit = i + numNoms;
+			
+			String line;
+			Student[] mavNoms = new Student[numNoms];
+			
+			for (; i < limit; i++) {
+				line = fileLines.get(i).trim();
+				if ("".equals(line)) {
+					throw new IllegalArgumentException("Encountered unexpected blank line");
+				}
+				Student newStudent = new Student(line);
+				mavNoms[numNoms - (limit - i)] = newStudent;
+			}
+			
+			newTeacher.addNoms(mavNoms);
+			teacherHolder.add(newTeacher);
+			teacherIndex++;
 		}
+		
+		numAwards = teacherIndex;
+		
+		teacherList = new Teacher[teacherIndex];
+		for (int j = 0; j < teacherList.length; j++) {
+			teacherList[j] = teacherHolder.get(j);
+		}
+	}
+	
+	private void findNumNoms(ArrayList<String> fileLines) {
+		int j = 1;
+		while(!("".equals(fileLines.get(j).trim()))) {j++;}
+		numNoms = j - 1;
 	}
 	
 	private ArrayList<String> loadTextFile() throws IOException {
