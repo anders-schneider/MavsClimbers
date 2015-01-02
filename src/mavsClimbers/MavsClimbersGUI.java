@@ -100,7 +100,7 @@ public class MavsClimbersGUI {
 					manualFirstWindow.dispose();
 					newNominationEntry(1);
 				} else {
-					errorLabel.setText("Please enter positive integer values");
+					JOptionPane.showMessageDialog(null, "Please enter a positive integer for each of the fields");
 				}
 			}
 			
@@ -129,7 +129,7 @@ public class MavsClimbersGUI {
 	
 	private void newNominationEntry(int awardNumber) {
 		JFrame nomEntryWindow = new JFrame("Award #" + awardNumber);
-		nomEntryWindow.setSize(450, 200);
+		nomEntryWindow.setSize(520, 200);
 		nomEntryWindow.setLayout(new BorderLayout());
 		
 		JPanel specsPanel = new JPanel();
@@ -138,8 +138,8 @@ public class MavsClimbersGUI {
 		JLabel classNameLabel = new JLabel("Class Name:");
 		JLabel teacherNameLabel = new JLabel("Teacher Name:");
 		
-		JTextField classNameField = new JTextField();
-		JTextField teacherNameField = new JTextField();
+		JTextField classNameField = new JTextField("", 10);
+		JTextField teacherNameField = new JTextField("", 10);
 		
 		specsPanel.setLayout(new GridLayout(4, 2, 20, 20));
 		specsPanel.add(classNameLabel);
@@ -159,7 +159,7 @@ public class MavsClimbersGUI {
 		
 		for (int j = 0; j < numNoms; j++) {
 			nomsPanel.add(new JLabel("Nomination #" + (j + 1)));
-			JTextField nomsField = new JTextField();
+			JTextField nomsField = new JTextField("", 10);
 			nomFieldList[j] = nomsField;
 			nomsPanel.add(nomsField);
 		}
