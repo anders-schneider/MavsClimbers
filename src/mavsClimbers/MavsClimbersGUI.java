@@ -129,7 +129,7 @@ public class MavsClimbersGUI {
 	
 	private void newNominationEntry(int awardNumber) {
 		JFrame nomEntryWindow = new JFrame("Award #" + awardNumber);
-		nomEntryWindow.setSize(600, 300);
+		nomEntryWindow.setSize(450, 200);
 		nomEntryWindow.setLayout(new BorderLayout());
 		
 		JPanel specsPanel = new JPanel();
@@ -137,48 +137,45 @@ public class MavsClimbersGUI {
 		
 		JLabel classNameLabel = new JLabel("Class Name:");
 		JLabel teacherNameLabel = new JLabel("Teacher Name:");
-		JLabel awardNameLabel = new JLabel("Award Name (optional):");
 		
-		JLabel errorReport = new JLabel("");
+		JTextField classNameField = new JTextField();
+		JTextField teacherNameField = new JTextField();
 		
-		JTextField classNameField = new JTextField("Physics");
-		JTextField teacherNameField = new JTextField("Schneider");
-		JTextField awardNameField = new JTextField("Maverick");
-		
-		specsPanel.setLayout(new GridLayout(4, 2, 40, 40));
+		specsPanel.setLayout(new GridLayout(4, 2, 20, 20));
 		specsPanel.add(classNameLabel);
 		specsPanel.add(classNameField);
 		specsPanel.add(teacherNameLabel);
 		specsPanel.add(teacherNameField);
-		specsPanel.add(awardNameLabel);
-		specsPanel.add(awardNameField);
 		specsPanel.add(new JPanel());
-		specsPanel.add(errorReport);
+		specsPanel.add(new JPanel());
+		specsPanel.add(new JPanel());
+		specsPanel.add(new JPanel());
 		
 		JTextField [] nomFieldList = new JTextField [numNoms];
-		JButton backButton = new JButton("Back");
+		//JButton backButton = new JButton("Back");
 		JButton nextButton = new JButton("Next");
 		
 		nomsPanel.setLayout(new GridLayout(numNoms + 1, 2, 20, 20));
 		
 		for (int j = 0; j < numNoms; j++) {
 			nomsPanel.add(new JLabel("Nomination #" + (j + 1)));
-			JTextField nomsField = new JTextField("Student X");
+			JTextField nomsField = new JTextField();
 			nomFieldList[j] = nomsField;
 			nomsPanel.add(nomsField);
 		}
 		
-		nomsPanel.add(backButton);
+		//nomsPanel.add(backButton);
+		nomsPanel.add(new JPanel());
 		nomsPanel.add(nextButton);
 		
-		backButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// Go back, populate fields with what they had when last saved
-				// When they click next again, remove the old teacher/class
-				// from the list and add the new one with the new details
-			}
-		});
+//		backButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// Go back, populate fields with what they had when last saved
+//				// When they click next again, remove the old teacher/class
+//				// from the list and add the new one with the new details
+//			}
+//		});
 		
 		nextButton.addActionListener(new ActionListener() {
 			@Override
@@ -192,7 +189,7 @@ public class MavsClimbersGUI {
 						determineOptimalDistribution();
 					}
 				} else {
-					errorReport.setText("You have not filled in all the required fields.");
+					JOptionPane.showMessageDialog(null, "You have not filled in all the required fields.");
 				}
 			}
 			
@@ -209,7 +206,6 @@ public class MavsClimbersGUI {
 			
 			private void saveAwardData() {
 				String className = classNameField.getText().trim();
-				String awardName = awardNameField.getText().trim();
 				String teacherName = teacherNameField.getText().trim();
 				
 				Teacher newTeacher = new Teacher(teacherName, className);
