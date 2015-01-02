@@ -270,14 +270,26 @@ public class MavsClimbersGUI {
 	
 	private void launchFormatWarningWindow() {
 		JFrame formatWarningWindow = new JFrame("Warning!");
-		formatWarningWindow.setSize(400, 200);
+		formatWarningWindow.setSize(300, 250);
 		
 		formatWarningWindow.setLayout(new BorderLayout());
 		
 		JButton continueButton = new JButton("Continue");
+		JPanel formatExamplePanel = new JPanel();
+		formatExamplePanel.setLayout(new GridLayout(10, 1));
+		formatExamplePanel.add(new JLabel(""));
+		formatExamplePanel.add(new JLabel("Teacher 1 - Class Name"));
+		formatExamplePanel.add(new JLabel("Nomination #1"));
+		formatExamplePanel.add(new JLabel("Nomination #2"));
+		formatExamplePanel.add(new JLabel("     ...     "));
+		formatExamplePanel.add(new JLabel("Nomination #n"));
+		formatExamplePanel.add(new JLabel(""));
+		formatExamplePanel.add(new JLabel("Teacher 2 - Class Name"));
+		formatExamplePanel.add(new JLabel("Nomination #1"));
+		formatExamplePanel.add(new JLabel("     ...     "));
 		
 		formatWarningWindow.add(new JLabel("Text files must have the following format:"), BorderLayout.NORTH);
-		formatWarningWindow.add(new JLabel("Teacher 1 - Class Name\n\nNomination #1\nNomination #2\nNomination #3\n\nTeacher 2 - Class Name\nNomination #1\n..."), BorderLayout.CENTER);
+		formatWarningWindow.add(formatExamplePanel, BorderLayout.CENTER);
 		formatWarningWindow.add(continueButton, BorderLayout.SOUTH);
 		
 		continueButton.addActionListener(new ActionListener() {
